@@ -1,10 +1,8 @@
-// app/api/auth/signup/route.ts
-
 import { NextResponse } from "next/server";
 import { getConnection } from "@/app/lib/db";
 import bcrypt from "bcryptjs";
 import { RowDataPacket } from "mysql2";
-import { sendEmail } from "@/app/lib/mailer"; // Importer la fonction d'envoi d'email
+import { sendEmail } from "@/app/lib/mailer";
 
 interface User extends RowDataPacket {
   id: number;
@@ -14,22 +12,34 @@ interface User extends RowDataPacket {
 }
 
 export async function POST(request: Request) {
-  const {
-    email,
-    password,
-    role = "user", // Rôle par défaut : "user"
-  }: { email: string; password: string; role?: string } = await request.json();
+  console.log("🚀 Requête reçue pour inscription");
 
-  const connection = await getConnection();
-
+  let connection;
   try {
-    // Vérifier si l'email existe déjà
+    const body = await request.json();
+    console.log("📩 Données reçues :", body);
+
+    const { email, password, role = "user" } = body;
+
+    if (!email || !password) {
+      console.error("❌ Email ou mot de passe manquant !");
+      return NextResponse.json(
+        { message: "Email et mot de passe sont requis." },
+        { status: 400 }
+      );
+    }
+
+    connection = await getConnection();
+    console.log("🔌 Connexion à la DB réussie");
+
+    // Vérifier si l'utilisateur existe déjà
     const [existingUsers] = await connection.execute<User[]>(
       "SELECT id FROM users WHERE email = ?",
       [email]
     );
 
     if (existingUsers.length > 0) {
+      console.warn("⚠️ Email déjà utilisé :", email);
       return NextResponse.json(
         { message: "Email already in use!" },
         { status: 400 }
@@ -38,39 +48,39 @@ export async function POST(request: Request) {
 
     // Hacher le mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("🔒 Mot de passe hashé avec succès");
 
-    // Insérer le nouvel utilisateur dans la base de données
+    // Insérer l'utilisateur
     await connection.execute(
       "INSERT INTO users (email, password, role) VALUES (?, ?, ?)",
       [email, hashedPassword, role]
     );
+    console.log("✅ Utilisateur créé dans la base de données");
 
-    // Envoyer un e-mail de bienvenue après l'inscription
-    const subject = "Bienvenue sur Avenue Mondaine !";
-    const text = `Bonjour,
+    // Envoyer un e-mail de bienvenue
+    const subject = "Bienvenue sur mon site Pokémon !";
+    const text = `Bonjour,\n\nMerci de vous être inscrit !\n\nBienvenue à bord !`;
 
-    Merci de vous être inscrit sur Avenue Mondaine. Nous sommes ravis de vous accueillir dans notre communauté.
-
-    Si vous avez des questions, n'hésitez pas à nous contacter.
-
-    Bienvenue à bord !
-
-    L'équipe Avenue Mondaine`;
-
-    // Envoi de l'e-mail de bienvenue
-    await sendEmail(email, subject, text);
+    try {
+      await sendEmail(email, subject, text);
+      console.log("📩 Email de bienvenue envoyé avec succès");
+    } catch (emailError) {
+      console.warn("⚠️ Erreur lors de l'envoi de l'email :", emailError);
+    }
 
     return NextResponse.json(
       { message: "User created successfully!" },
       { status: 201 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("❌ Erreur interne :", error);
     return NextResponse.json(
       { message: "Something went wrong!" },
       { status: 500 }
     );
   } finally {
-    connection.release();
+    if (connection) {
+      connection.release();
+    }
   }
 }

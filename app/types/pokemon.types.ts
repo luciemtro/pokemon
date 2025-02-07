@@ -50,17 +50,25 @@ export type PokemonCard = {
     small: string;
     large: string;
   };
-  tcgplayer: {
+  tcgplayer?: {
     url: string;
     updatedAt: string;
-    prices: {
-      holofoil: {
-        low: number;
-        mid: number;
-        high: number;
-        market: number;
-        directLow: number;
+    prices?: {
+      holofoil?: {
+        low?: number;
+        mid?: number;
+        high?: number;
+        market?: number;
+        directLow?: number;
+      };
+      normal?: {
+        low?: number;
+        mid?: number;
+        high?: number;
+        market?: number;
+        directLow?: number;
       };
     };
   };
+  price?: number; // ✅ Add the price property at the root
 };

@@ -1,4 +1,5 @@
 // app/layout.tsx
+import { CardProvider } from "@/app/context/cardContext";
 import type { Metadata } from "next";
 import "./styles/globals.scss";
 import "./styles/roots.scss";
@@ -25,7 +26,9 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         {/* Pour la session utilisateur */}
-        <SessionProviderClient>{children}</SessionProviderClient>
+        <SessionProviderClient>
+          <CardProvider>{children}</CardProvider>
+        </SessionProviderClient>
       </body>
     </html>
   );

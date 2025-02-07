@@ -25,7 +25,7 @@ const RegisterPage = () => {
 
       if (res.ok) {
         setMessage("User created successfully!");
-        router.push("/login"); // Redirection vers la page de login après inscription
+        router.push("auth/login"); // Redirection vers la page de login après inscription
       } else {
         const data = await res.json();
         setMessage(data.message || "Registration failed!");
@@ -36,18 +36,18 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="accountContainer">
-      <div className="w-full max-w-md p-8 containerFormAccount pink-border">
-        <h2 className="text-2xl pink-link mb-6 text-center">Inscription</h2>
+    <div className="">
+      <div className="">
+        <h2 className="">Inscription</h2>
 
         {message && <p className="mb-4 text-center text-red-500">{message}</p>}
 
         <form onSubmit={handleRegister}>
-          <div className="mb-4 ">
-            <label className="block pink-link">Email</label>
+          <div className=" ">
+            <label className="">Email</label>
             <input
               type="email"
-              className="w-full px-4 py-2"
+              className=""
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -55,10 +55,10 @@ const RegisterPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block pink-link">Mot de passe</label>
+            <label className="">Mot de passe</label>
             <input
               type="password"
-              className="w-full px-4 py-2"
+              className=""
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -66,7 +66,7 @@ const RegisterPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block pink-link">Role (optional)</label>
+            <label className="">Role (optional)</label>
             <select
               className="w-full px-4 py-2"
               value={role}
@@ -77,7 +77,7 @@ const RegisterPage = () => {
             </select>
           </div>
 
-          <div className="mb-6">
+          <div className="">
             <button type="submit" className="w-full ">
               S'inscrire
             </button>

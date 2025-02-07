@@ -1,60 +1,105 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import { getConnection } from "@/app/lib/db";
+import { ResultSetHeader } from "mysql2";
 
-// Récupérer une carte Pokémon par son ID depuis l'API Pokémon TCG
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+// 🔥 Initialisation Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-06-20",
+});
 
+export async function POST(req: Request) {
+  let connection;
   try {
-    if (!id) {
+    const rawBody = await req.text(); // ✅ Remplace `buffer(req as any);`
+    const sig = req.headers.get("stripe-signature")!;
+
+    if (!sig) {
       return NextResponse.json(
-        { error: "ID de la carte requis" },
+        { error: "Signature Stripe manquante" },
         { status: 400 }
       );
     }
 
-    // Vérifier si la clé API est bien définie
-    const apiKey = process.env.POKEMON_TCG_API_KEY;
-    if (!apiKey) {
+    let event: Stripe.Event;
+    try {
+      event = stripe.webhooks.constructEvent(
+        rawBody,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+    } catch (err) {
+      console.error("❌ Erreur de vérification Stripe :", err);
       return NextResponse.json(
-        { error: "Clé API manquante. Vérifiez votre .env.local" },
-        { status: 500 }
+        { error: "Signature Webhook invalide" },
+        { status: 400 }
       );
     }
 
-    // Requête vers l'API Pokémon TCG
-    const response = await fetch(`https://api.pokemontcg.io/v2/cards/${id}`, {
-      headers: {
-        "X-Api-Key": apiKey,
-      },
-      cache: "no-store", // Empêcher la mise en cache des résultats
-    });
+    // 🔥 Cas où le paiement est validé
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object as Stripe.Checkout.Session;
 
-    if (response.status === 404) {
-      return NextResponse.json({ error: "Carte non trouvée" }, { status: 404 });
-    }
+      console.log("✅ Paiement validé pour :", session.customer_email);
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: `Erreur API: ${response.statusText}` },
-        { status: response.status }
+      const customerEmail = session.customer_email!;
+      const totalFee = session.amount_total! / 100; // Convertir centimes en €
+      const products = session.metadata?.cart
+        ? JSON.parse(session.metadata.cart)
+        : [];
+
+      if (!customerEmail || !totalFee || !products.length) {
+        console.error("⚠️ Erreur : Données de paiement invalides :", session);
+        return NextResponse.json(
+          { error: "Données de paiement invalides" },
+          { status: 400 }
+        );
+      }
+
+      // 🔥 Insérer la commande en base de données
+      connection = await getConnection();
+      await connection.beginTransaction();
+
+      // Insertion dans `orders`
+      const insertOrderSql = `
+        INSERT INTO orders (email, total_fee, payment_status, stripe_session_id)
+        VALUES (?, ?, ?, ?)
+      `;
+      const [orderResult] = await connection.execute<ResultSetHeader>(
+        insertOrderSql,
+        [customerEmail, totalFee, "paid", session.id]
       );
+
+      const orderId = orderResult.insertId;
+
+      // Insertion des cartes Pokémon achetées
+      const insertOrderProductSql = `
+        INSERT INTO order_products (order_id, product_id, product_name, product_image, price)
+        VALUES (?, ?, ?, ?, ?)
+      `;
+      for (const product of products) {
+        await connection.execute(insertOrderProductSql, [
+          orderId,
+          product.id,
+          product.name,
+          product.image,
+          product.price,
+        ]);
+      }
+
+      await connection.commit();
+      console.log("✅ Commande enregistrée en BDD, ID :", orderId);
+      return NextResponse.json({ success: true });
     }
 
-    const data = await response.json();
-    return NextResponse.json({ card: data.data });
+    return NextResponse.json({ received: true });
   } catch (error) {
-    console.error(
-      "Erreur lors de la récupération de la carte Pokémon :",
-      error
-    );
-    return NextResponse.json(
-      { error: "Erreur serveur lors de la récupération des données" },
-      { status: 500 }
-    );
+    console.error("❌ Erreur Webhook Stripe :", error);
+    if (connection) {
+      await connection.rollback();
+      return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    }
+  } finally {
+    if (connection) connection.release();
   }
 }
