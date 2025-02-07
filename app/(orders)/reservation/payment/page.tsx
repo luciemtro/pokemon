@@ -56,7 +56,6 @@ export default function PaymentPage() {
         city: formData.city || "",
         postalCode: formData.postalCode || "",
         country: formData.country || "",
-        comment: formData.comment || "",
         selectedCards: selectedCards,
       }),
     });

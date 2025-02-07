@@ -20,7 +20,12 @@ export async function GET(
     }
 
     connection = await getConnection();
-
+    if (!id) {
+      return NextResponse.json(
+        { error: "Données Webhook invalides" },
+        { status: 400 }
+      );
+    }
     const [card] = await connection.query<PokemonCard[] & RowDataPacket[]>(
       `SELECT id, name, type, hp, rarity, image_url FROM pokemon_cards WHERE id = ?`,
       [id]

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getConnection } from "@/app/lib/db"; // Utilise le pool de connexions
 import { NextResponse } from "next/server";
 import { RowDataPacket } from "mysql2";
