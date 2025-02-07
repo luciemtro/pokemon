@@ -46,7 +46,17 @@ export async function POST(req: Request) {
 
       console.log("✅ Paiement validé pour :", session.customer_email);
 
-      const customerEmail = session.customer_email!;
+      const customerEmail =
+        session.customer_email || session.customer_details?.email;
+
+      if (!customerEmail) {
+        console.error("⚠️ Aucun email client trouvé !");
+        return NextResponse.json(
+          { error: "Email client introuvable" },
+          { status: 400 }
+        );
+      }
+
       const totalFee = session.amount_total! / 100; // Convertir centimes en €
       const products = session.metadata?.cart
         ? JSON.parse(session.metadata.cart)
@@ -54,10 +64,10 @@ export async function POST(req: Request) {
 
       console.log("🛒 Produits reçus :", products);
 
-      if (!customerEmail || !totalFee || !products.length) {
-        console.error("⚠️ Données de paiement invalides :", session);
+      if (!products.length) {
+        console.error("⚠️ Aucun produit trouvé dans la commande !");
         return NextResponse.json(
-          { error: "Données de paiement invalides" },
+          { error: "Aucun produit trouvé" },
           { status: 400 }
         );
       }
@@ -94,7 +104,7 @@ export async function POST(req: Request) {
         VALUES (?, ?, ?, ?, ?)
       `;
       const [orderResult] = await connection.execute<ResultSetHeader>(
-        insertOrderSql, // ✅ Utilisation de la variable
+        insertOrderSql,
         [userId, customerEmail, totalFee, "paid", session.id]
       );
 
@@ -108,15 +118,28 @@ export async function POST(req: Request) {
       `;
 
       for (const product of products) {
-        console.log("📦 Insertion de la carte :", product.name);
-        await connection.execute(insertOrderItemSql, [
+        console.log("📦 Insertion du produit :", {
           orderId,
-          product.id,
-          product.name,
-          product.image,
-          product.price,
-          product.quantity || 1, // Par défaut 1 si non défini
-        ]);
+          productId: product.id,
+          name: product.name,
+          imageUrl: product.image,
+          price: product.price,
+          quantity: product.quantity || 1,
+        });
+
+        try {
+          await connection.execute(insertOrderItemSql, [
+            orderId,
+            product.id,
+            product.name,
+            product.image,
+            product.price,
+            product.quantity || 1,
+          ]);
+          console.log("✅ Produit inséré :", product.name);
+        } catch (error) {
+          console.error("❌ Erreur lors de l'insertion d'un produit :", error);
+        }
       }
 
       await connection.commit();
