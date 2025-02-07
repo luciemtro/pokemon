@@ -58,8 +58,8 @@ export async function POST(req: Request) {
       }
 
       const totalFee = session.amount_total! / 100; // Convertir centimes en €
-      const products = session.metadata?.cart
-        ? JSON.parse(session.metadata.cart)
+      const products = session.metadata?.card
+        ? JSON.parse(session.metadata.card)
         : [];
 
       console.log("🛒 Produits reçus :", products);

@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     }
 
     // ✅ On ne garde que le minimum dans `metadata` (évite l'erreur de taille)
-    const compactCart = card.map(
+    const compactCard = card.map(
       (p: { id: string; name: string; price: number }) => ({
         id: p.id,
         name: p.name,
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       line_items: lineItems,
       mode: "payment",
       metadata: {
-        cart: JSON.stringify(compactCart), // 🔥 On n'envoie que les ID et prix (moins de 500 caractères)
+        card: JSON.stringify(compactCard), // 🔥 On n'envoie que les ID et prix (moins de 500 caractères)
       },
       success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/card`,

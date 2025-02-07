@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCard } from "@/app/context/cardContext";
-import stripe from "stripe";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -23,7 +22,7 @@ export default function PaymentPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ card }), // Assure-toi que `cart` est bien défini
+        body: JSON.stringify({ card }),
       });
 
       const data = await res.json();
