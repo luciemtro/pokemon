@@ -24,17 +24,13 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="pt-28 flex flex-col justify-center items-center gap-10 container_dashboard_admin">
+    <div className="">
       <h1>
         Bienvenue dans le tableau de bord administrateur, {session?.user?.email}
       </h1>
       {/* Bouton pour accéder aux commandes */}
       <button onClick={() => router.push("/admin/orders")}>
         Voir les commandes
-      </button>
-      {/* Bouton pour accéder aux artistes */}
-      <button onClick={() => router.push("/admin/artistForm")}>
-        Accéder aux artistes
       </button>
     </div>
   );
