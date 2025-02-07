@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { PokemonCard } from "@/app/types/pokemon.types";
 import Link from "next/link";
 
 export default function PokemonPage() {
   const { id } = useParams();
+  const router = useRouter(); // Pour rediriger
   const [pokemon, setPokemon] = useState<PokemonCard | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -41,6 +42,21 @@ export default function PokemonPage() {
     }, 300);
   };
 
+  const handleReservation = () => {
+    if (!pokemon) return;
+
+    // Construire l'URL avec les infos du Pokémon
+    const queryParams = new URLSearchParams({
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.images.large,
+      rarity: pokemon.rarity || "Inconnue",
+      price: pokemon.tcgplayer?.prices?.holofoil?.market?.toString() || "0", // Prix du marché si dispo
+    }).toString();
+
+    router.push(`/reservation?${queryParams}`);
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -50,71 +66,64 @@ export default function PokemonPage() {
   }
 
   return (
-    <section className="">
+    <section>
       <Link href="/catalogPokemon">
-        <button className="">Retour</button>
+        <button>Retour</button>
       </Link>
 
-      <div className="">
-        <div className="">
-          <div className="">
-            <h1>{pokemon.name}</h1>
-            <p>{pokemon.types?.join(", ")}</p>
-          </div>
-
-          <div className="">
-            <h2>HP</h2>
-            <p>{pokemon.hp}</p>
-          </div>
-
-          <div className="">
-            <h2>Faiblesses</h2>
-            <p>
-              {pokemon.weaknesses
-                ? pokemon.weaknesses
-                    .map((w) => `${w.type} (${w.value})`)
-                    .join(", ")
-                : "Aucune"}
-            </p>
-          </div>
-
-          <div className="">
-            <h2>Attaques</h2>
-            <ul>
-              {pokemon.attacks.map((attack) => (
-                <li key={attack.name}>
-                  <strong>{attack.name}</strong> : {attack.damage} -{" "}
-                  {attack.text}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div>
+        <div>
+          <h1>{pokemon.name}</h1>
+          <p>{pokemon.types?.join(", ")}</p>
         </div>
 
-        <div className="">
-          <img src={currentImage || ""} alt={pokemon.name} className="" />
+        <div>
+          <h2>HP</h2>
+          <p>{pokemon.hp}</p>
+        </div>
+
+        <div>
+          <h2>Faiblesses</h2>
+          <p>
+            {pokemon.weaknesses
+              ? pokemon.weaknesses
+                  .map((w) => `${w.type} (${w.value})`)
+                  .join(", ")
+              : "Aucune"}
+          </p>
+        </div>
+
+        <div>
+          <h2>Attaques</h2>
+          <ul>
+            {pokemon.attacks.map((attack) => (
+              <li key={attack.name}>
+                <strong>{attack.name}</strong> : {attack.damage} - {attack.text}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      <div className="">
-        <Link href={pokemon.tcgplayer.url} target="_blank" className="">
-          <button>Acheter la carte</button>
-        </Link>
+      <div>
+        <img src={currentImage || ""} alt={pokemon.name} />
+      </div>
 
+      <div>
+        <button onClick={handleReservation}>Réserver cette carte</button>
         <img
           src={pokemon.images.small}
           alt={`${pokemon.name} (mini)`}
-          className=""
           onClick={() => handleImageClick(pokemon.images.large)}
         />
       </div>
 
-      <div className="">
+      <div>
         <h2>Artiste</h2>
         <p>{pokemon.artist}</p>
       </div>
 
-      <div className="">
+      <div>
         <h2>Rareté</h2>
         <p>{pokemon.rarity}</p>
       </div>
