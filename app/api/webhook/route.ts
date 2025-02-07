@@ -118,27 +118,40 @@ export async function POST(req: Request) {
       `;
 
       for (const product of products) {
+        // ✅ Vérifier et définir une valeur par défaut si `undefined`
+        const productId = product.id || "unknown";
+        const productName = product.name || "Nom inconnu";
+        const productImage =
+          product.image && product.image !== null
+            ? product.image
+            : "https://via.placeholder.com/150"; // ✅ Image par défaut
+        const productPrice = product.price ?? 0; // ✅ Si `undefined`, mettre 0
+        const productQuantity = product.quantity ?? 1; // ✅ Si `undefined`, mettre 1
+
         console.log("📦 Insertion du produit :", {
           orderId,
-          productId: product.id,
-          name: product.name,
-          imageUrl: product.image,
-          price: product.price,
-          quantity: product.quantity || 1,
+          productId,
+          productName,
+          productImage,
+          productPrice,
+          productQuantity,
         });
 
         try {
           await connection.execute(insertOrderItemSql, [
             orderId,
-            product.id,
-            product.name,
-            product.image,
-            product.price,
-            product.quantity || 1,
+            productId,
+            productName,
+            productImage,
+            productPrice,
+            productQuantity,
           ]);
-          console.log("✅ Produit inséré :", product.name);
+          console.log("✅ Produit inséré :", productName);
         } catch (error) {
-          console.error("❌ Erreur lors de l'insertion d'un produit :", error);
+          console.error(
+            `❌ Erreur lors de l'insertion du produit ${productName} :`,
+            error
+          );
         }
       }
 
