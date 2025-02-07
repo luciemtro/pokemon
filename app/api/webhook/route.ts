@@ -1,14 +1,12 @@
-import { getConnection } from "@/app/lib/db";
-import { NextResponse } from "next/server";
-import { RowDataPacket } from "mysql2";
-import { PokemonCard } from "@/app/types/pokemon.types";
+export const dynamic = "force-dynamic";
 
-// Récupérer une carte Pokémon par son ID
+import { NextResponse } from "next/server";
+
+// Récupérer une carte Pokémon par son ID depuis l'API Pokémon TCG
 export async function GET(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  let connection;
   const { id } = params;
 
   try {
@@ -19,32 +17,44 @@ export async function GET(
       );
     }
 
-    connection = await getConnection();
-    if (!id) {
+    // Vérifier si la clé API est bien définie
+    const apiKey = process.env.POKEMON_TCG_API_KEY;
+    if (!apiKey) {
       return NextResponse.json(
-        { error: "Données Webhook invalides" },
-        { status: 400 }
+        { error: "Clé API manquante. Vérifiez votre .env.local" },
+        { status: 500 }
       );
     }
-    const [card] = await connection.query<PokemonCard[] & RowDataPacket[]>(
-      `SELECT id, name, type, hp, rarity, image_url FROM pokemon_cards WHERE id = ?`,
-      [id]
-    );
 
-    if (card.length === 0) {
+    // Requête vers l'API Pokémon TCG
+    const response = await fetch(`https://api.pokemontcg.io/v2/cards/${id}`, {
+      headers: {
+        "X-Api-Key": apiKey,
+      },
+      cache: "no-store", // Empêcher la mise en cache des résultats
+    });
+
+    if (response.status === 404) {
       return NextResponse.json({ error: "Carte non trouvée" }, { status: 404 });
     }
 
-    return NextResponse.json({ card: card[0] });
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: `Erreur API: ${response.statusText}` },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json({ card: data.data });
   } catch (error) {
-    console.error("Erreur récupération carte Pokémon :", error);
+    console.error(
+      "Erreur lors de la récupération de la carte Pokémon :",
+      error
+    );
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Erreur inconnue" },
+      { error: "Erreur serveur lors de la récupération des données" },
       { status: 500 }
     );
-  } finally {
-    if (connection) {
-      connection.release();
-    }
   }
 }
