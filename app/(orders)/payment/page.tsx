@@ -40,7 +40,7 @@ export default function PaymentPage() {
   };
 
   return (
-    <section>
+    <section className="p-10">
       <h1>Paiement 🛒</h1>
       <button onClick={handleCheckout} disabled={loading}>
         {loading ? "Redirection..." : "Payer avec Stripe"}
