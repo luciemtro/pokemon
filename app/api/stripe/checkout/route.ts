@@ -27,12 +27,17 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ On ne garde que le minimum dans `metadata` (évite l'erreur de taille)
     const compactCard = card.map(
-      (p: { id: string; name: string; price: number }) => ({
+      (p: {
+        id: string;
+        name: string;
+        price: number;
+        images: { small: string };
+      }) => ({
         id: p.id,
         name: p.name,
         price: p.price,
+        images: p.images.small,
       })
     );
 
@@ -45,7 +50,7 @@ export async function POST(req: Request) {
             name: p.name,
             images: [p.images.small],
           },
-          unit_amount: Math.round(p.price * 100), // Convertir en centimes
+          unit_amount: Math.round(p.price * 100),
         },
         quantity: 1,
       })
@@ -53,13 +58,12 @@ export async function POST(req: Request) {
 
     console.log("📦 Items envoyés à Stripe :", lineItems);
 
-    // ✅ Création de la session Stripe avec metadata réduit
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
       metadata: {
-        card: JSON.stringify(compactCard), // 🔥 On n'envoie que les ID et prix (moins de 500 caractères)
+        card: JSON.stringify(compactCard),
       },
       success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/card`,

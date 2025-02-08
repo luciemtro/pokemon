@@ -8,12 +8,21 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-06-20",
 });
 
+// Défini le type du produit
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  images: string;
+  quantity?: number;
+};
+
 export async function POST(req: Request) {
   let connection;
   try {
     console.log("📩 Réception d'un webhook Stripe...");
 
-    const rawBody = await req.text(); // ✅ Récupère le raw body
+    const rawBody = await req.text(); //
     const sig = req.headers.get("stripe-signature");
 
     if (!sig) {
@@ -57,8 +66,8 @@ export async function POST(req: Request) {
         );
       }
 
-      const totalFee = session.amount_total! / 100; // Convertir centimes en €
-      const products = session.metadata?.card
+      const totalFee = session.amount_total! / 100; // Converti centimes en €
+      const products: Product[] = session.metadata?.card
         ? JSON.parse(session.metadata.card)
         : [];
 
@@ -78,7 +87,7 @@ export async function POST(req: Request) {
 
       console.log("🔗 Connexion à la base de données établie.");
 
-      // 📌 Récupérer `user_id` via l'email
+      // 📌 Récupére `user_id` via l'email
       const [userRows] = await connection.execute<RowDataPacket[]>(
         "SELECT id FROM users WHERE email = ? LIMIT 1",
         [customerEmail]
@@ -118,24 +127,14 @@ export async function POST(req: Request) {
       `;
 
       for (const product of products) {
-        // ✅ Vérifier et définir une valeur par défaut si `undefined`
+        // ✅ Vérifie et défini une valeur par défaut si `undefined`
         const productId = product.id || "unknown";
         const productName = product.name || "Nom inconnu";
-        const productImage =
-          product.image && product.image !== null
-            ? product.image
-            : "https://via.placeholder.com/150"; // ✅ Image par défaut
-        const productPrice = product.price ?? 0; // ✅ Si `undefined`, mettre 0
-        const productQuantity = product.quantity ?? 1; // ✅ Si `undefined`, mettre 1
-
-        console.log("📦 Insertion du produit :", {
-          orderId,
-          productId,
-          productName,
-          productImage,
-          productPrice,
-          productQuantity,
-        });
+        const productImage = product.images
+          ? product.images
+          : "https://via.placeholder.com/150";
+        const productPrice = product.price ?? 0;
+        const productQuantity = product.quantity ?? 1;
 
         try {
           await connection.execute(insertOrderItemSql, [
