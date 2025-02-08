@@ -8,19 +8,4 @@ const nextConfig = {
   },
 };
 
-export default {
-  ...nextConfig,
-  env: {
-    NEXTAUTH_URL: "https://pokemon-lime-zeta.vercel.app", // URL de ton app en production
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET, // Vérifie le secret
-  },
-  async redirects() {
-    return [
-      {
-        source: "/auth/login",
-        destination: "/", // Redirige après connexion
-        permanent: false,
-      },
-    ];
-  },
-};
+export default nextConfig;

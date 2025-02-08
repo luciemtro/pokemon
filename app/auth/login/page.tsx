@@ -3,41 +3,42 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError(""); // Reset error message
 
     const res = await signIn("credentials", {
-      redirect: false, // Désactive la redirection automatique
+      redirect: false, // Désactiver la redirection automatique
       email,
       password,
     });
 
+    console.log("SignIn response:", res); // Debugging: Log the full response
+
     if (res?.error) {
-      setError(res.error);
+      setError(res.error); // Display error if login fails
     } else {
-      // Récupère la session après la connexion pour obtenir le rôle
+      // Optionally, fetch session directly (if needed)
       const sessionRes = await fetch("/api/auth/session");
       const session = await sessionRes.json();
 
-      // Debugging : Affiche le rôle dans la console
-      console.log("User Role:", session?.user?.role);
+      console.log("User Role:", session?.user?.role); // Debugging: Check user role
 
-      // // Vérifier le rôle et rediriger vers le bon dashboard
-      // if (session?.user?.role === "admin") {
-      //   router.push("/admin/dashboard"); // Rediriger vers le dashboard admin
-      // } else {
-      //   router.push("/"); // Rediriger vers le dashboard utilisateur
-      // }
+      // Redirect based on user role
+      if (session?.user?.role === "admin") {
+        router.push("/");
+      } else {
+        router.push("/");
+      }
     }
   };
 

@@ -12,8 +12,8 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/reservation/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/reservation/cancel`,
+      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/cancel`,
       customer_email: customerEmail,
       metadata: {
         products: JSON.stringify(products), // On stocke les produits en metadata pour les récupérer dans le webhook
