@@ -17,7 +17,7 @@ const LoginPage = () => {
     setError("");
 
     const res = await signIn("credentials", {
-      redirect: false, // Désactiver la redirection automatique
+      redirect: false, // Désactive la redirection automatique
       email,
       password,
     });
@@ -25,19 +25,19 @@ const LoginPage = () => {
     if (res?.error) {
       setError(res.error);
     } else {
-      // Récupérer la session après la connexion pour obtenir le rôle
+      // Récupère la session après la connexion pour obtenir le rôle
       const sessionRes = await fetch("/api/auth/session");
       const session = await sessionRes.json();
 
       // Debugging : Affiche le rôle dans la console
       console.log("User Role:", session?.user?.role);
 
-      // Vérifier le rôle et rediriger vers le bon dashboard
-      if (session?.user?.role === "admin") {
-        router.push("/admin/dashboard"); // Rediriger vers le dashboard admin
-      } else {
-        router.push("/"); // Rediriger vers le dashboard utilisateur
-      }
+      // // Vérifier le rôle et rediriger vers le bon dashboard
+      // if (session?.user?.role === "admin") {
+      //   router.push("/admin/dashboard"); // Rediriger vers le dashboard admin
+      // } else {
+      //   router.push("/"); // Rediriger vers le dashboard utilisateur
+      // }
     }
   };
 
