@@ -6,6 +6,7 @@ import "./styles/roots.scss";
 import "./styles/animations.scss";
 import "./styles/typography.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
+import Navbar from "./navbar/navbar";
 
 // _app.tsx ou _app.js
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body>
         {/* Pour la session utilisateur */}
         <SessionProviderClient>
-          <CardProvider>{children}</CardProvider>
+          <CardProvider>
+            <Navbar />
+            {children}{" "}
+          </CardProvider>
         </SessionProviderClient>
       </body>
     </html>
