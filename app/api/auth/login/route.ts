@@ -17,7 +17,6 @@ export async function POST(request: Request) {
   const connection = await getConnection();
 
   try {
-    // Cast rows as User[] (et assure-toi d'utiliser RowDataPacket[] en MySQL)
     const [rows] = await connection.execute<User[]>(
       "SELECT id, password, role FROM users WHERE email = ?",
       [email]
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
 
     const user = rows[0];
 
-    // Vérifier si le mot de passe est correct
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
@@ -42,13 +40,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Créer une session utilisateur ou un token
     return NextResponse.json(
       {
         message: "Login successful!",
         user: {
           id: user.id,
-          role: user.role, // 'admin' ou 'user'
+          role: user.role,
         },
       },
       { status: 200 }

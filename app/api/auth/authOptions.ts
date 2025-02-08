@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// Configuration de NextAuth.js
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -10,6 +11,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        // Implémentation de la logique d'autorisation
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -17,25 +19,47 @@ export const authOptions: NextAuthOptions = {
         });
 
         const data = await res.json();
-
         if (res.ok && data?.user) {
-          const user = data.user;
-
           return {
-            id: user.id,
+            id: data.user.id,
             email: credentials?.email,
-            role: user.role,
+            role: data.user.role,
           };
         }
-
         return null;
       },
     }),
   ],
+
+  // Configuration des cookies pour NextAuth.js
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax", // Vous pouvez aussi essayer "strict" si cela ne fonctionne pas
+        secure: process.env.NODE_ENV === "production", // En production, utilisez "secure"
+      },
+    },
+    csrfToken: {
+      name: `next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production", // Assurez-vous que "secure" est défini sur true en production
+      },
+    },
+  },
+
+  // Autres options (si nécessaire)
+  session: {
+    strategy: "jwt", // Utilisez JWT pour gérer les sessions
+  },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id || token.id;
+        token.id = user.id;
         token.role = user.role || "user";
       }
       return token;
@@ -47,5 +71,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET, // Assurez-vous que cette clé est définie dans votre fichier .env
 };
