@@ -16,7 +16,16 @@ export const authOptions: NextAuthOptions = {
           body: JSON.stringify(credentials),
         });
 
-        const data = await res.json();
+        const text = await res.text(); // Log de la réponse brute
+        console.log("Response text from login API:", text);
+
+        let data;
+        try {
+          data = JSON.parse(text); // Essaie de la convertir en JSON
+        } catch (err) {
+          console.error("Error parsing JSON:", err);
+          return null; // Retourne null si la réponse n'est pas un JSON valide
+        }
 
         if (res.ok && data?.user) {
           const user = data.user;
@@ -28,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           };
         }
 
-        return null;
+        return null; // Si les credentials ne sont pas valides, retourne null
       },
     }),
   ],
@@ -46,5 +55,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET, // Utilisation de NEXTAUTH_SECRET
 };
