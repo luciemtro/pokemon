@@ -2,23 +2,12 @@
 
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/auth/login" });
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -37,19 +26,16 @@ export const Navbar = () => {
           </li>
         </ul>
         <div className="user-account">
-          <ul>
-            {status === "authenticated" && session?.user ? (
-              <li>
-                <a onClick={handleLogout} className="">
-                  DÉCONNEXION
-                </a>
-              </li>
-            ) : (
-              <li>
-                <Link href="/auth/login">Connexion</Link>
-              </li>
-            )}
-          </ul>
+          {status === "authenticated" && session?.user ? (
+            <div>
+              <p>
+                Bienvenue, {session.user.email} ({session.user.role})
+              </p>
+              <button onClick={handleLogout}>Déconnexion</button>
+            </div>
+          ) : (
+            <button>Connexion</button>
+          )}
         </div>
       </nav>
     </header>
