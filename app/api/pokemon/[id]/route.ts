@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 
 // Fonction GET pour récupérer un Pokémon par ID
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
-  const { id } = params; // Extraction du paramètre dynamique 'id' de l'URL
+  const { id } = context.params; // Accéder au paramètre dynamique 'id' dans l'URL
 
-  // Vérification de la validité de l'ID
+  // Vérifier si l'ID est présent
   if (!id) {
     return NextResponse.json(
       { error: "ID de la carte requis" },
