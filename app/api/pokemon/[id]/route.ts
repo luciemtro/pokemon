@@ -1,8 +1,10 @@
+//pokemon [id] route.ts
 import { NextResponse } from "next/server";
-
-export async function GET(req: Request, context: { params: { id: string } }) {
-  // ✅ Ensure params is awaited before destructuring
-  const { id } = await context.params;
+export async function GET(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params; // Attendre la résolution
 
   try {
     if (!id) {
