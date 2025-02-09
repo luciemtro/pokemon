@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string }; query: Record<string, string> }
+  { params }: { params: { id: string } }
 ) {
   const { id } = params;
 
