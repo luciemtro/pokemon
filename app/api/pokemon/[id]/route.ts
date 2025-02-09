@@ -1,34 +1,27 @@
 import { NextResponse } from "next/server";
 
-// Fonction GET pour récupérer un Pokémon par ID
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params; // Extraire l'ID du paramètre dynamique
-
-  // Vérifier si l'ID est présent
-  if (!id) {
-    return NextResponse.json(
-      { error: "ID de la carte requis" },
-      { status: 400 }
-    );
-  }
+export async function GET(req: Request, context: { params: { id: string } }) {
+  // ✅ Ensure params is awaited before destructuring
+  const { id } = await context.params;
 
   try {
-    // Vérification de la clé API
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de la carte requis" },
+        { status: 400 }
+      );
+    }
+
     const apiKey = process.env.POKEMON_TCG_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "Clé API manquante" }, { status: 500 });
     }
 
-    // Requête pour récupérer les informations de la carte
     const response = await fetch(`https://api.pokemontcg.io/v2/cards/${id}`, {
       headers: { "X-Api-Key": apiKey },
       cache: "no-store",
     });
 
-    // Vérification de la réponse de l'API
     if (!response.ok) {
       return NextResponse.json({ error: "Carte non trouvée" }, { status: 404 });
     }
@@ -36,17 +29,16 @@ export async function GET(
     const data = await response.json();
     const card = data.data;
 
-    // Extraction du prix
+    // ✅ Extracting price properly
     const price =
       card.tcgplayer?.prices?.holofoil?.market ??
       card.tcgplayer?.prices?.normal?.market ??
-      1; // Par défaut à 1 si le prix n'est pas disponible
+      1; // Default to 1 if price is not available
 
-    // Retourner les données de la carte avec le prix
     return NextResponse.json({
       card: {
         ...card,
-        price, // Injection du prix dans l'objet
+        price, // ✅ Injecting price into the object
       },
     });
   } catch (error) {
