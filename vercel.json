@@ -5,16 +5,5 @@
       "methods": ["POST"],
       "dest": "/api/webhook"
     }
-  ],
-  "version": 2,
-  "builds": [
-    {
-      "src": "app/api/pokemon/[id]/route.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "app/api/pokemon/route.ts",
-      "use": "@vercel/node"
-    }
   ]
 }
