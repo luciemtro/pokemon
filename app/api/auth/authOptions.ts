@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
   // Configuration des cookies pour NextAuth.js
   cookies: {
     sessionToken: {
-      name: `next-auth.session-token`,
+      name: "next-auth.session-token",
       options: {
         httpOnly: true,
         sameSite: "lax", // Vous pouvez aussi essayer "strict" si cela ne fonctionne pas
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
       },
     },
     csrfToken: {
-      name: `next-auth.csrf-token`,
+      name: "next-auth.csrf-token",
       options: {
         httpOnly: true,
         sameSite: "lax",

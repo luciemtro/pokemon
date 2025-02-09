@@ -4,5 +4,8 @@ const config = {
     tailwindcss: {},
   },
 };
+module.exports = {
+  plugins: [require("tailwindcss"), require("autoprefixer")],
+};
 
 export default config;

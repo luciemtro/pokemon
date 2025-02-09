@@ -42,6 +42,11 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
+            <a onClick={handleLogout} className="text-xs deconnexion">
+              DÉCONNEXION
+            </a>
+          </li>
+          <li>
             <Link href="/card" className="">
               Panier
             </Link>
@@ -56,7 +61,7 @@ export const Navbar = () => {
               >
                 <span className="text-xs">Mon compte</span>
                 <svg
-                  className={`w-4 h-4 transition-transform${
+                  className={`w-4 h-4 transition-transform ${
                     isDropdownOpen ? "rotate-180" : "rotate-0"
                   }`}
                   xmlns="http://www.w3.org/2000/svg"
