@@ -52,7 +52,9 @@
   height: 3px;
   background-color: currentColor; /* Utilisation de la couleur courante (évite de modifier tes couleurs de base) */
   border-radius: 1px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .hamburger.hamburgerOpen span:nth-child(1) {
@@ -96,7 +98,9 @@
   text-decoration: none;
   font-weight: 600;
   position: relative;
-  transition: color 0.3s ease, opacity 0.3s ease; /* Effet fluide au survol */
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease; /* Effet fluide au survol */
 }
 
 .navMenu ul li a:hover {
@@ -116,7 +120,9 @@
     padding: 2rem;
     opacity: 0; /* Initialement transparent */
     transform: translateY(-100%); /* Hors de la vue */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Transition fluide */
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease; /* Transition fluide */
     z-index: 1000;
   }
 

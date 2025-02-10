@@ -1,4 +1,3 @@
-// app/layout.tsx
 import { CardProvider } from "@/app/context/cardContext";
 import type { Metadata } from "next";
 import "./styles/globals.scss";
@@ -7,6 +6,7 @@ import "./styles/animations.scss";
 import "./styles/typography.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
 import Navbar from "./navbar/navbar";
+
 
 export const metadata: Metadata = {
   title: "Pokémon",
@@ -20,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        {/* Ajout du CDN Tailwind ici */}
+      </head>
       <body>
         {/* Pour la session utilisateur */}
         <SessionProviderClient>

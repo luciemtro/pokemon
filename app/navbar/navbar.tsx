@@ -30,7 +30,7 @@ export const Navbar = () => {
         <span className={isMenuOpen ? styles.hamburgerOpen : ""}></span>
       </button>
       <nav className={`${styles.navMenu} ${isMenuOpen ? styles.open : ""}`}>
-        <ul className="flex gap-4">
+        <ul className="flex gap-4 text-white">
           <li>
             <Link href="/" className="">
               Accueil
