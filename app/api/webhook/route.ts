@@ -2,11 +2,49 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getConnection } from "@/app/lib/db";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
+import nodemailer from "nodemailer";
 
 // 🔥 Initialisation de Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-01-27.acacia",
 });
+
+// 📩 Fonction pour envoyer un email après paiement réussi
+async function sendConfirmationEmail(
+  to: string,
+  orderId: number,
+  products: any[]
+) {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: process.env.SMTP_SECURE === "true", // `false` pour TLS (port 587), `true` pour SSL (port 465)
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+
+    // 🔥 Construire le contenu de l'email
+    const productList = products
+      .map((p) => `- ${p.name} (${p.price}€)`)
+      .join("\n");
+
+    const mailOptions = {
+      from: `"Pokémon Store" <${process.env.EMAIL_FROM}>`,
+      to,
+      subject: `🛒 Confirmation de votre commande #${orderId}`,
+      text: `Bonjour,\n\nMerci pour votre achat ! 🎉\n\nDétails de votre commande :\n${productList}\n\nVotre commande sera traitée sous peu.\n\nMerci pour votre confiance !\n\nL'équipe Pokémon Store`,
+    };
+
+    // 📩 Envoyer l'email
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Email envoyé à ${to} pour la commande #${orderId}`);
+  } catch (error) {
+    console.error("❌ Erreur lors de l'envoi de l'email :", error);
+  }
+}
 
 export async function POST(req: Request) {
   let connection;
@@ -152,6 +190,10 @@ export async function POST(req: Request) {
 
       await connection.commit();
       console.log("✅ Commande et items enregistrés en BDD !");
+
+      // 📩 Envoi de l'email de confirmation
+      await sendConfirmationEmail(customerEmail, orderId, products);
+
       return NextResponse.json({ success: true });
     }
 
