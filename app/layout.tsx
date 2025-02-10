@@ -28,6 +28,10 @@ export default function RootLayout({
         <SessionProviderClient>
           <CardProvider>
             <Navbar />
+            <div className="bg-red-500 text-white p-10 !important">
+  Test Tailwind sur Vercel 🚀
+</div>
+
             {children}{" "}
           </CardProvider>
         </SessionProviderClient>
