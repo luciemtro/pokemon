@@ -8,21 +8,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-01-27.acacia",
 });
 
-// Défini le type du produit
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  images: string;
-  quantity?: number;
-};
-
 export async function POST(req: Request) {
   let connection;
   try {
     console.log("📩 Réception d'un webhook Stripe...");
 
-    const rawBody = await req.text(); //
+    const rawBody = await req.text();
     const sig = req.headers.get("stripe-signature");
 
     if (!sig) {
@@ -52,12 +43,10 @@ export async function POST(req: Request) {
     // 🔥 Cas où le paiement est validé
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
-
       console.log("✅ Paiement validé pour :", session.customer_email);
 
       const customerEmail =
         session.customer_email || session.customer_details?.email;
-
       if (!customerEmail) {
         console.error("⚠️ Aucun email client trouvé !");
         return NextResponse.json(
@@ -66,17 +55,22 @@ export async function POST(req: Request) {
         );
       }
 
-      const totalFee = session.amount_total! / 100; // Converti centimes en €
-      const products: Product[] = session.metadata?.card
-        ? JSON.parse(session.metadata.card)
-        : [];
+      // ✅ Vérifier que metadata.products existe et contient des produits
+      if (!session.metadata || !session.metadata.products) {
+        console.error("❌ `metadata.products` est vide ou absent !");
+        return NextResponse.json(
+          { error: "Aucun produit trouvé dans les metadata Stripe" },
+          { status: 400 }
+        );
+      }
 
-      console.log("🛒 Produits reçus :", products);
+      const products: any[] = JSON.parse(session.metadata.products);
+      console.log("📦 Produits reçus depuis metadata :", products);
 
       if (!products.length) {
-        console.error("⚠️ Aucun produit trouvé dans la commande !");
+        console.error("⚠️ Aucun produit trouvé après parsing !");
         return NextResponse.json(
-          { error: "Aucun produit trouvé" },
+          { error: "Aucun produit trouvé dans la commande !" },
           { status: 400 }
         );
       }
@@ -84,20 +78,20 @@ export async function POST(req: Request) {
       // 🔥 Connexion à la base de données
       connection = await getConnection();
       await connection.beginTransaction();
-
       console.log("🔗 Connexion à la base de données établie.");
 
-      // 📌 Récupére `user_id` via l'email
+      // 📌 Vérifier si l'utilisateur existe
+      console.log(
+        "🔍 Recherche de l'utilisateur avec l'email :",
+        customerEmail
+      );
       const [userRows] = await connection.execute<RowDataPacket[]>(
         "SELECT id FROM users WHERE email = ? LIMIT 1",
         [customerEmail]
       );
 
       if (userRows.length === 0) {
-        console.error(
-          "⚠️ Utilisateur non trouvé avec cet email :",
-          customerEmail
-        );
+        console.error("❌ Utilisateur non trouvé :", customerEmail);
         return NextResponse.json(
           { error: "Utilisateur non trouvé" },
           { status: 404 }
@@ -108,6 +102,7 @@ export async function POST(req: Request) {
       console.log("👤 Utilisateur trouvé, ID :", userId);
 
       // 📌 Insertion de la commande dans `orders`
+      const totalFee = session.amount_total ? session.amount_total / 100 : 0;
       const insertOrderSql = `
         INSERT INTO orders (user_id, email, total, status, stripe_session_id)
         VALUES (?, ?, ?, ?, ?)
@@ -120,21 +115,22 @@ export async function POST(req: Request) {
       const orderId = orderResult.insertId;
       console.log("📝 Commande enregistrée dans `orders`, ID :", orderId);
 
-      // 📌 Insertion des cartes Pokémon achetées dans `order_items`
+      // 📌 Insertion des cartes achetées dans `order_items`
       const insertOrderItemSql = `
         INSERT INTO order_items (order_id, pokemon_id, name, image_url, price, quantity)
         VALUES (?, ?, ?, ?, ?, ?)
       `;
 
       for (const product of products) {
-        // ✅ Vérifie et défini une valeur par défaut si `undefined`
         const productId = product.id || "unknown";
         const productName = product.name || "Nom inconnu";
-        const productImage = product.images
-          ? product.images
-          : "https://via.placeholder.com/150";
+        const productImage = product.image || "https://via.placeholder.com/150";
         const productPrice = product.price ?? 0;
-        const productQuantity = product.quantity ?? 1;
+        const productQuantity = 1;
+
+        console.log(
+          `🛒 Ajout du produit : ${productName} (ID: ${productId}, Prix: ${productPrice}, Image: ${productImage})`
+        );
 
         try {
           await connection.execute(insertOrderItemSql, [

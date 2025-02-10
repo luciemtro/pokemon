@@ -42,11 +42,6 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <a onClick={handleLogout} className="text-xs deconnexion">
-              DÉCONNEXION
-            </a>
-          </li>
-          <li>
             <Link href="/card" className="">
               Panier
             </Link>
