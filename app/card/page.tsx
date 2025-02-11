@@ -1,9 +1,15 @@
 "use client";
-import { useCard } from "@/app/context/cardContext"; // ✅ Correct import
+import { useCard } from "@/app/context/cardContext";
 import Link from "next/link";
 
 export default function CardPage() {
-  const { card, removeFromCard, clearCard } = useCard();
+  const {
+    card,
+    removeFromCard,
+    clearCard,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useCard();
 
   return (
     <section>
@@ -18,6 +24,9 @@ export default function CardPage() {
               <p>
                 {pokemon.name} - {pokemon.rarity}
               </p>
+              <p>Quantité : {pokemon.quantity}</p>
+              <button onClick={() => decreaseQuantity(pokemon.id)}>-</button>
+              <button onClick={() => increaseQuantity(pokemon.id)}>+</button>
               <button onClick={() => removeFromCard(pokemon.id)}>
                 Supprimer
               </button>

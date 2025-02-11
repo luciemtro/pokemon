@@ -2,20 +2,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { PokemonCard } from "@/app/types/pokemon.types";
 
+interface CardItem extends PokemonCard {
+  quantity: number; // ✅ Ajout de la quantité
+}
+
 interface CardContextType {
-  card: PokemonCard[];
+  card: CardItem[];
   addToCard: (pokemon: PokemonCard) => void;
   removeFromCard: (id: string) => void;
   clearCard: () => void;
+  increaseQuantity: (id: string) => void; // ✅ Augmenter la quantité
+  decreaseQuantity: (id: string) => void; // ✅ Diminuer la quantité
 }
 
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
 export const CardProvider = ({ children }: { children: React.ReactNode }) => {
-  const [card, setCard] = useState<PokemonCard[]>([]);
-  const [isMounted, setIsMounted] = useState(false); // Fix hydration issue
+  const [card, setCard] = useState<CardItem[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // ✅ Ensure the cart is retrieved properly
   useEffect(() => {
     setIsMounted(true);
     const storedCart = localStorage.getItem("card");
@@ -34,33 +39,65 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [card, isMounted]);
 
+  // ✅ Ajouter un produit ou augmenter sa quantité
   const addToCard = (pokemon: PokemonCard) => {
-    const price = pokemon.price ?? 1; // Ensure price exists
     setCard((prev) => {
-      const updatedCart = [...prev, { ...pokemon, price }];
-      localStorage.setItem("card", JSON.stringify(updatedCart)); // ✅ Save immediately
-      return updatedCart;
+      const existingItem = prev.find((item) => item.id === pokemon.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.id === pokemon.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...pokemon, quantity: 1 }];
     });
   };
 
+  // ✅ Supprimer un produit complètement
   const removeFromCard = (id: string) => {
-    setCard((prev) => {
-      const updatedCart = prev.filter((pokemon) => pokemon.id !== id);
-      localStorage.setItem("card", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+    setCard((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // ✅ Vider le panier
   const clearCard = () => {
     setCard([]);
     localStorage.removeItem("card");
   };
 
+  // ✅ Augmenter la quantité d'un produit
+  const increaseQuantity = (id: string) => {
+    setCard((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  // ✅ Diminuer la quantité (et supprimer si 0)
+  const decreaseQuantity = (id: string) => {
+    setCard(
+      (prev) =>
+        prev
+          .map((item) =>
+            item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+          )
+          .filter((item) => item.quantity > 0) // Supprime si quantité = 0
+    );
+  };
+
   return (
     <CardContext.Provider
-      value={{ card, addToCard, removeFromCard, clearCard }}
+      value={{
+        card,
+        addToCard,
+        removeFromCard,
+        clearCard,
+        increaseQuantity,
+        decreaseQuantity,
+      }}
     >
-      {isMounted ? children : null} {/* Prevent hydration errors */}
+      {isMounted ? children : null}
     </CardContext.Provider>
   );
 };
