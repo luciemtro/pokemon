@@ -1,0 +1,48 @@
+@tailwind components;
+
+@layer components {
+  // Bouton incliné et droit jaune
+  .btn-slanted-yellow,
+  .btn-straight-yellow {
+    @apply font-poppins font-bold italic px-4 py-2 bg-yellow-400 text-black uppercase relative overflow-hidden;
+
+    &::after {
+      content: "";
+      @apply absolute inset-0 scale-x-0 origin-left transition-transform duration-300 ease-in-out;
+      background-color: #ff5722; /* 🔥 Couleur vive au choix */
+      z-index: 0;
+    }
+
+    & > span {
+      @apply relative z-10;
+    }
+
+    &:hover {
+      @apply text-white;
+
+      &::after {
+        @apply scale-x-100;
+      }
+    }
+  }
+
+  // Ajustement pour le bouton incliné
+  .btn-slanted-yellow {
+    @apply skew-x-[-10deg];
+  }
+
+  // Button Noir incliné et droit
+  .btn-slanted-black,
+  .btn-straight-black {
+    @apply font-poppins font-semibold px-4 py-2 border border-black text-white uppercase transition-colors duration-300 ease-in-out;
+  }
+
+  .btn-slanted-black {
+    @apply italic skew-x-[-10deg];
+  }
+
+  .btn-slanted-black:hover,
+  .btn-straight-black:hover {
+    @apply bg-white text-black;
+  }
+}

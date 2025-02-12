@@ -1,7 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+:root {
+  --yellow-400: #ffd700;
+  --black: #000000;
+  --white: #ffffff;
+  --gray-800: #2d3748;
+}
 * {
   margin: 0;
   padding: 0;

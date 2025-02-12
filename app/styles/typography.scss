@@ -1,0 +1,31 @@
+@tailwind components;
+@layer components {
+  .btn-slanted-black {
+    @apply font-poppins font-semibold italic px-4 py-2 skew-x-[-10deg] bg-black text-white uppercase;
+  }
+
+  .btn-straight-black {
+    @apply font-poppins font-semibold px-4 py-2 bg-black text-white uppercase;
+  }
+  .title-main {
+    @apply font-poppins font-extrabold italic text-3xl md:text-4xl text-black uppercase;
+  }
+
+  .title-underline {
+    @apply bg-yellow-400 h-1 w-16 block mx-auto mt-2 skew-x-[-10deg];
+  }
+
+  .text-body {
+    @apply font-nunito text-gray-800 text-base font-light leading-relaxed;
+  }
+  .text-price {
+    @apply font-montserrat text-lg font-normal text-black;
+  }
+  .nav-item,
+  .title-secondary {
+    @apply font-poppins font-extrabold uppercase text-base  text-black;
+  }
+  .nav-account {
+    @apply font-poppins font-semibold uppercase text-xs  text-white;
+  }
+}
