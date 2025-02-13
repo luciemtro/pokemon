@@ -8,6 +8,7 @@ import "./styles/animations.scss";
 import "./styles/buttons.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
 import Navbar from "./navbar/navbar";
+import Home from "@/app/page"; // 🔥 Importe Home comme page par défaut
 
 export const metadata: Metadata = {
   title: "Pokémon",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode; // 🔹 Rend `children` optionnel
 }) {
   return (
     <html lang="fr">
@@ -38,7 +39,7 @@ export default function RootLayout({
         <SessionProviderClient>
           <CardProvider>
             <Navbar />
-            {children}
+            {children || <Home />}
           </CardProvider>
         </SessionProviderClient>
       </body>
