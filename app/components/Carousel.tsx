@@ -13,7 +13,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [images.length]);
 
@@ -26,7 +26,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          transition={{ duration: 2, ease: "easeInOut" }}
         >
           {/* Image */}
           <img
