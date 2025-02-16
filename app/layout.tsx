@@ -1,14 +1,14 @@
 import Head from "next/head";
-import { CardProvider } from "@/app/context/cardContext";
+import { CardProvider } from "@/context/cardContext";
 import type { Metadata } from "next";
 import "./styles/globals.scss";
 import "./styles/roots.scss";
 import "./styles/typography.scss";
 import "./styles/animations.scss";
 import "./styles/buttons.scss";
-import SessionProviderClient from "@/app/SessionProviderClient";
+import SessionProviderClient from "@/SessionProviderClient";
 import Navbar from "./navbar/navbar";
-import Home from "@/app/page"; // 🔥 Importe Home comme page par défaut
+import Home from "@/page"; // 🔥 Importe Home comme page par défaut
 
 export const metadata: Metadata = {
   title: "Pokémon",

@@ -2,7 +2,7 @@
 
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import styles from "@/app/styles/navbar.module.scss"; // Import des styles SCSS
+import styles from "@/styles/navbar.module.scss"; // Import des styles SCSS
 import { useState } from "react";
 
 export const Navbar = () => {

@@ -13,6 +13,10 @@ export default {
         nunito: ["Nunito", "serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
+      backgroundImage: {
+        "radial-gradient":
+          "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.8) 30%)",
+      },
     },
   },
   plugins: [],
