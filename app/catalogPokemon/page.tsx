@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { PokemonCard } from "@/types/pokemon.types";
 import Link from "next/link";
+import LoadingSpinner from "@/components/LoadingSpinner"; // 👈 Import du composant
 
 export default function CatalogPokemon() {
   const [pokemons, setPokemons] = useState<PokemonCard[]>([]);
@@ -46,7 +47,7 @@ export default function CatalogPokemon() {
   }, []);
 
   if (loading) {
-    return <div>Chargement des cartes...</div>;
+    return <LoadingSpinner />; // 👈 Utilisation du composant de chargement
   }
 
   if (error) {
@@ -108,18 +109,17 @@ export default function CatalogPokemon() {
               key={pokemon.id}
               className="border p-4 rounded shadow-md text-center"
             >
-              <Link href={`/catalogPokemon/${pokemon.id}`}>
-                <h2 className="font-bold font-poppins">{pokemon.name}</h2>
-                {pokemon.images?.small && (
+              {pokemon.images?.small && (
+                <Link href={`/catalogPokemon/${pokemon.id}`}>
                   <img
                     src={pokemon.images.small}
                     alt={pokemon.name}
                     className="mt-2 w-45"
                   />
-                )}
-
-                <p>{pokemon.types?.join(", ")}</p>
-              </Link>
+                </Link>
+              )}
+              <h2 className="font-bold">{pokemon.name}</h2>
+              <p>{pokemon.types?.join(", ")}</p>
             </li>
           ))}
         </ul>

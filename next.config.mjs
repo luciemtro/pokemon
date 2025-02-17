@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     optimizeCss: false, // Empêche Next.js de supprimer des classes Tailwind
   },
+  images: {
+    domains: ["images.pokemontcg.io"],
+  },
 };
 
 export default nextConfig;
