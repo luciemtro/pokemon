@@ -16,11 +16,14 @@ const images = [
 
 export default function Home() {
   return (
-    <main className="relative w-full h-full flex items-center justify-center bg-[url('/images/pokeball.webp')] bg-cover bg-center">
-      {/* Gradient en cercle */}
-      <div className="absolute inset-0 bg-radial-gradient pointer-events-none"></div>
+    <main>
+      <header></header>
+      <section className="relative w-full h-full flex items-center justify-center bg-[url('/images/pokeball.webp')] bg-cover bg-center">
+        {/* Gradient en cercle */}
+        <div className="absolute inset-0 bg-radial-gradient pointer-events-none"></div>
 
-      <Carousel images={images} />
+        <Carousel images={images} />
+      </section>
     </main>
   );
 }
