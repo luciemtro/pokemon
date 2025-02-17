@@ -1,4 +1,3 @@
-// app/auth/login/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -17,59 +16,90 @@ const LoginPage = () => {
     setError(""); // Reset error message
 
     const res = await signIn("credentials", {
-      redirect: false, // Désactiver la redirection automatique
+      redirect: false,
       email,
       password,
     });
 
-    console.log("SignIn response:", res); // Debugging: Log the full response
+    console.log("SignIn response:", res);
 
     if (res?.error) {
-      setError(res.error); // Display error if login fails
+      setError("⚠️ Identifiants incorrects. Veuillez réessayer.");
     } else {
-      // Optionally, fetch session directly (if needed)
       const sessionRes = await fetch("/api/auth/session");
       const session = await sessionRes.json();
 
-      console.log("User Role:", session?.user?.role); // Debugging: Check user role
+      console.log("User Role:", session?.user?.role);
 
-      // Redirect based on user role
-      if (session?.user?.role === "admin") {
-        router.push("/");
-      } else {
-        router.push("/");
-      }
+      // Rediriger selon le rôle
+      router.push("/");
     }
   };
 
   return (
-    <section
-      id="login"
-      className="min-h-screen flex items-center justify-center"
-    >
-      <div className="p-8 w-full max-w-md">
-        <h2 className="text-center uppercase">Connexion</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 mt-5 mb-5">
+    <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-6">
+      {/* 🔥 Background Cyberpunk */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-40"
+        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
+      ></div>
+
+      {/* 🛡️ Conteneur du formulaire */}
+      <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-3xl font-extrabold text-blue-400 text-center mb-6">
+          🔐 Connexion
+        </h2>
+
+        {/* 🔴 Affichage des erreurs */}
+        {error && (
+          <p className="bg-red-500 text-white p-2 rounded text-center mb-4">
+            {error}
+          </p>
+        )}
+
+        {/* 📜 Formulaire de connexion */}
+        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          {/* 📩 Champ Email */}
           <input
             type="email"
             placeholder="Email"
             value={email}
-            className="w-full px-4 py-2"
+            className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setEmail(e.target.value)}
           />
+
+          {/* 🔑 Champ Mot de passe */}
           <input
             type="password"
             placeholder="Mot de passe"
             value={password}
-            className="w-full px-4 py-2"
+            className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Se connecter</button>
+
+          {/* 🟢 Bouton Connexion */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/50 transform hover:scale-105"
+          >
+            🚀 Se connecter
+          </button>
         </form>
-        <div className="flex flex-col gap-2 text-center ">
-          <Link href="/auth/register">Créer un Compte</Link>
-          <Link href="/auth/reset-password/request">Mot de passe oublié ?</Link>
+
+        {/* 🔗 Liens vers inscription & reset password */}
+        <div className="flex flex-col gap-2 text-center mt-6">
+          <Link
+            href="/auth/register"
+            className="text-blue-400 hover:text-blue-300 transition"
+          >
+            ➕ Créer un Compte
+          </Link>
+          <Link
+            href="/auth/reset-password/request"
+            className="text-yellow-400 hover:text-yellow-300 transition"
+          >
+            🔄 Mot de passe oublié ?
+          </Link>
         </div>
       </div>
     </section>

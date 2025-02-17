@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 const RegisterPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [role, setRole] = useState<string>("user"); // Optionnel: définir un rôle par défaut
+  const [role, setRole] = useState<string>("user");
   const [message, setMessage] = useState<string>("");
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -24,67 +25,93 @@ const RegisterPage = () => {
       });
 
       if (res.ok) {
-        setMessage("User created successfully!");
-        router.push("auth/login"); // Redirection vers la page de login après inscription
+        setIsSuccess(true);
+        setMessage("✅ Utilisateur créé avec succès !");
+        setTimeout(() => router.push("/auth/login"), 3000);
       } else {
         const data = await res.json();
-        setMessage(data.message || "Registration failed!");
+        setIsSuccess(false);
+        setMessage(data.message || "❌ Échec de l'inscription !");
       }
     } catch (error) {
-      setMessage("Something went wrong!");
+      setIsSuccess(false);
+      setMessage("❌ Une erreur est survenue !");
     }
   };
 
   return (
-    <section
-      id="registration"
-      className="min-h-screen flex flex-col items-center justify-center"
-    >
-      <h2 className="">Inscription</h2>
+    <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-10">
+      {/* 🔥 Background Cyberpunk */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-40"
+        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
+      ></div>
 
-      {message && <p className="mb-4 text-center text-red-500">{message}</p>}
+      {/* 📝 Conteneur du formulaire */}
+      <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-3xl font-extrabold text-blue-400 text-center mb-6">
+          📝 Inscription
+        </h2>
 
-      <form onSubmit={handleRegister}>
-        <div className=" ">
-          <label className="">Email</label>
-          <input
-            type="email"
-            className=""
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="">Mot de passe</label>
-          <input
-            type="password"
-            className=""
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="">Role (optional)</label>
-          <select
-            className="w-full px-4 py-2"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+        {/* 🔴 Message d'erreur ou de succès */}
+        {message && (
+          <p
+            className={`p-2 rounded text-center mb-4 ${
+              isSuccess ? "bg-green-500 text-white" : "bg-red-500 text-white"
+            }`}
           >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
+            {message}
+          </p>
+        )}
 
-        <div className="">
-          <button type="submit" className="w-full ">
-            S'inscrire
+        {/* 📜 Formulaire d'inscription */}
+        <form onSubmit={handleRegister} className="flex flex-col gap-4">
+          {/* 📩 Champ Email */}
+          <div>
+            <label className="block mb-1">Email</label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* 🔑 Champ Mot de passe */}
+          <div>
+            <label className="block mb-1">Mot de passe</label>
+            <input
+              type="password"
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* 🎭 Sélecteur de rôle */}
+          <div>
+            <label className="block mb-1">Rôle (optionnel)</label>
+            <select
+              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="user">Utilisateur</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+
+          {/* 🟢 Bouton S'inscrire */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/50 transform hover:scale-105"
+          >
+            🚀 S'inscrire
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </section>
   );
 };
