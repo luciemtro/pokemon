@@ -109,7 +109,7 @@ export default function CatalogPokemon() {
       {filteredPokemons.length === 0 ? (
         <p className="text-gray-400">Aucun Pokémon trouvé.</p>
       ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 z-10">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10">
           {filteredPokemons.map((pokemon) => (
             <li
               key={pokemon.id}
@@ -121,7 +121,7 @@ export default function CatalogPokemon() {
                   <img
                     src={pokemon.images.small}
                     alt={pokemon.name}
-                    className="mx-auto mb-2 rounded-lg shadow-md border border-gray-700 hover:border-blue-500 transition"
+                    className="mx-auto mb-2 rounded-lg w-72 shadow-md border border-gray-700 hover:border-blue-500 transition"
                   />
                 </Link>
               )}
@@ -131,10 +131,12 @@ export default function CatalogPokemon() {
               <p className="text-gray-400">{pokemon.types?.join(", ")}</p>
 
               {/* 💰 Prix si disponible */}
-              {pokemon.tcgplayer?.prices?.holofoil?.market && (
+              {pokemon.tcgplayer?.prices?.holofoil?.market ? (
                 <p className="text-green-400 font-semibold">
                   💰 {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
                 </p>
+              ) : (
+                <p className="text-gray-400">💰 Prix non disponible</p>
               )}
             </li>
           ))}
