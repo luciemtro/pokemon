@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getConnection } from "@/app/lib/db";
+import { getConnection } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { RowDataPacket } from "mysql2";
-import { sendEmail } from "@/app/lib/mailer";
+import { sendEmail } from "@/lib/mailer";
 
 interface User extends RowDataPacket {
   id: number;

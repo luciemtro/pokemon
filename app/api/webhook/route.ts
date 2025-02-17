@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getConnection } from "@/app/lib/db";
+import { getConnection } from "@/lib/db";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import nodemailer from "nodemailer";
 
