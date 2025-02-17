@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { PokemonCard } from "@/app/types/pokemon.types";
-import { useCard } from "@/app/context/cardContext";
+import { PokemonCard } from "@/types/pokemon.types";
+import { useCard } from "@/context/cardContext";
 
 export default function PokemonPage() {
   const { id } = useParams();

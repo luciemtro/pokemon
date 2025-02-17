@@ -1,7 +1,7 @@
 // app/api/auth/reset-password/request/route.ts
-import { getConnection } from "@/app/lib/db";
+import { getConnection } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { sendEmail } from "@/app/lib/mailer";
+import { sendEmail } from "@/lib/mailer";
 import { randomBytes } from "crypto";
 import { RowDataPacket } from "mysql2";
 
