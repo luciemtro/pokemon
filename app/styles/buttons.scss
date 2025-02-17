@@ -10,7 +10,7 @@
       content: "";
       @apply absolute inset-0 scale-x-0 origin-left transition-transform duration-300 ease-in-out;
       background-color: #ff5722; /* 🔥 Couleur vive au choix */
-      z-index: 0;
+      z-index: -1;
     }
 
     & > span {
