@@ -6,6 +6,8 @@ import Link from "next/link";
 import { BsCart3 } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -33,17 +35,27 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 ${
+      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 h-16 ${
         isScrolled ? "bg-white shadow-lg" : "bg-white"
       }`}
     >
       {/* Logo */}
-      <div className="text-blue-950 uppercase text-lg font-semibold">
-        Pokémon Store
-      </div>
+      <Link
+        href="/"
+        className="text-blue-950 uppercase text-lg font-semibold flex items-center gap-2 absolute left-8 top-2"
+      >
+        <Image
+          src="/images/logo-pokemon.webp"
+          alt="Logo pokéball"
+          width={45}
+          height={45}
+          priority
+        />
+        <span>Pokémon Store</span>
+      </Link>
 
       {/* Navigation - Desktop */}
-      <nav className="hidden md:flex gap-8 text-lg font-semibold text-blue-950 uppercase">
+      <nav className="hidden md:flex flex-1 justify-center gap-8 text-lg font-semibold text-blue-950 uppercase">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           Accueil
         </Link>
@@ -101,7 +113,7 @@ const Navbar = () => {
 
       {/* Menu Burger - MOBILE */}
       <button
-        className={`md:hidden flex flex-col justify-center items-center gap-1 z-[1001] relative w-8 h-8 ${
+        className={`md:hidden flex flex-col justify-center items-center gap-1 z-[1001] w-8 h-8 absolute right-4 top-4 ${
           isMenuOpen ? "hidden" : "flex"
         }`}
         onClick={() => setIsMenuOpen(true)}
@@ -111,56 +123,64 @@ const Navbar = () => {
         <span className="block w-6 h-[3px] bg-blue-950 rounded-sm transition-transform duration-300"></span>
       </button>
 
-      {/* Menu Mobile (Burger) */}
-      {isMenuOpen && (
-        <nav className="md:hidden fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center gap-6 text-blue-950 text-lg font-semibold uppercase shadow-lg z-[999]">
-          {/* Bouton de fermeture */}
-          <button
-            className="absolute top-4 right-4 text-2xl"
-            onClick={() => setIsMenuOpen(false)}
+      {/* Menu Mobile (Burger) avec animation d'ouverture et de fermeture */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.nav
+            initial={{ x: "100%" }} // Commence hors écran
+            animate={{ x: 0 }} // Glisse à l'ouverture
+            exit={{ x: "100%" }} // Glisse à la fermeture
+            transition={{ type: "tween", duration: 0.4, ease: "easeInOut" }}
+            className="md:hidden fixed top-0 right-0 w-full h-full bg-white flex flex-col items-center justify-center gap-6 text-blue-950 text-lg font-semibold uppercase shadow-lg z-[999]"
           >
-            ✖
-          </button>
+            {/* Bouton de fermeture ✖ */}
+            <button
+              className="absolute top-4 right-4 text-2xl"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              ✖
+            </button>
 
-          <Link href="/" onClick={() => setIsMenuOpen(false)}>
-            Accueil
-          </Link>
-          <Link href="/catalogPokemon" onClick={() => setIsMenuOpen(false)}>
-            Carte Pokémon
-          </Link>
+            <Link href="/" onClick={() => setIsMenuOpen(false)}>
+              Accueil
+            </Link>
+            <Link href="/catalogPokemon" onClick={() => setIsMenuOpen(false)}>
+              Carte Pokémon
+            </Link>
 
-          {/* Utilisateur en Mobile */}
-          {status === "authenticated" && session?.user ? (
-            <>
+            {/* Utilisateur en Mobile */}
+            {status === "authenticated" && session?.user ? (
+              <>
+                <Link
+                  href="/user/dashboard"
+                  className="hover:opacity-80 transition-opacity"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Mes commandes
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 text-red-500 hover:opacity-80 transition-opacity"
+                >
+                  <RiLogoutBoxRLine className="text-2xl" />
+                  Déconnexion
+                </button>
+              </>
+            ) : (
               <Link
-                href="/user/dashboard"
+                href="/auth/login"
                 className="hover:opacity-80 transition-opacity"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Mes commandes
+                Connexion
               </Link>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center gap-2 text-red-500 hover:opacity-80 transition-opacity"
-              >
-                <RiLogoutBoxRLine className="text-2xl" />
-                Déconnexion
-              </button>
-            </>
-          ) : (
-            <Link
-              href="/auth/login"
-              className="hover:opacity-80 transition-opacity"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Connexion
-            </Link>
-          )}
-        </nav>
-      )}
+            )}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
