@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { PokemonCard } from "@/app/types/pokemon.types";
+import { PokemonCard } from "@/types/pokemon.types";
 
 interface CardItem extends PokemonCard {
   quantity: number; // ✅ Ajout de la quantité

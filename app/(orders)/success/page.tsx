@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useCard } from "@/app/context/cardContext";
+import { useCard } from "@/context/cardContext";
 
 export default function Success() {
   const { clearCard } = useCard();

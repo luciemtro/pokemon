@@ -1,5 +1,5 @@
 // app/api/auth/reset-password/reset.ts
-import { getConnection } from "@/app/lib/db";
+import { getConnection } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { RowDataPacket } from "mysql2";

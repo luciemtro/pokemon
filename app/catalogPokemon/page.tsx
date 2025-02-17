@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { PokemonCard } from "@/app/types/pokemon.types";
+import { PokemonCard } from "@/types/pokemon.types";
 import Link from "next/link";
 
 export default function CatalogPokemon() {

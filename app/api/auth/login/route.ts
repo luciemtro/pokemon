@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getConnection } from "@/app/lib/db";
+import { getConnection } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { RowDataPacket } from "mysql2";
 

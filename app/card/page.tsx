@@ -1,5 +1,5 @@
 "use client";
-import { useCard } from "@/app/context/cardContext";
+import { useCard } from "@/context/cardContext";
 import Link from "next/link";
 
 export default function CardPage() {
