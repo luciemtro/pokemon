@@ -2,14 +2,13 @@ import Carousel from "@/components/Carousel";
 import Link from "next/link";
 
 const images = [
+  "/images/pokemon/pikachu.webp",
   "/images/pokemon/bulbizare.webp",
-  "/images/pokemon/carapuce.webp",
   "/images/pokemon/dresseur.webp",
   "/images/pokemon/evoli.webp",
   "/images/pokemon/gardevoir.webp",
   "/images/pokemon/lucario.webp",
   "/images/pokemon/mewtwo.webp",
-  "/images/pokemon/pikachu.webp",
   "/images/pokemon/ronflex.webp",
   "/images/pokemon/amphinobi.webp",
   "/images/pokemon/spectrum.webp",
