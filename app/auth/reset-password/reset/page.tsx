@@ -32,22 +32,27 @@ export default function ResetPassword() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-11">
-      <h1>Réinitialiser le mot de passe</h1>
+    <section
+      id="reset-password"
+      className="min-h-screen flex items-center justify-center"
+    >
+      <form onSubmit={handleSubmit}>
+        <h1>Réinitialiser le mot de passe</h1>
 
-      {/* Utilisation du Suspense pour encapsuler la partie qui utilise useSearchParams */}
-      <Suspense fallback={<div>Chargement...</div>}>
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder="Nouveau mot de passe"
-          required
-        />
-      </Suspense>
+        {/* Utilisation du Suspense pour encapsuler la partie qui utilise useSearchParams */}
+        <Suspense fallback={<div>Chargement...</div>}>
+          <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Nouveau mot de passe"
+            required
+          />
+        </Suspense>
 
-      <button type="submit">Réinitialiser</button>
-      {message && <p>{message}</p>}
-    </form>
+        <button type="submit">Réinitialiser</button>
+        {message && <p>{message}</p>}
+      </form>
+    </section>
   );
 }

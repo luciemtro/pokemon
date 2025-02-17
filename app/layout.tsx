@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { CardProvider } from "@/context/cardContext";
 import type { Metadata } from "next";
-import "./styles/globals.scss";
-import "./styles/roots.scss";
-import "./styles/typography.scss";
-import "./styles/animations.scss";
-import "./styles/buttons.scss";
+import "@/styles/globals.scss";
+import "@/styles/roots.scss";
+import "@/styles/typography.scss";
+import "@/styles/animations.scss";
+import "@/styles/buttons.scss";
 import SessionProviderClient from "@/SessionProviderClient";
-import Navbar from "./navbar/navbar";
-import Footer from "./footer/page";
+import Navbar from "@/navbar/navbar";
+import Footer from "@/footer/page";
 import Home from "@/page"; // 🔥 Importe Home comme page par défaut
 
 export const metadata: Metadata = {

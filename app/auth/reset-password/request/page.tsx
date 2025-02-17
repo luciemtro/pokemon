@@ -31,8 +31,11 @@ export default function RequestResetPassword() {
   };
 
   return (
-    <div className="accountContainer pt-28">
-      <div className="containerFormAccount p-8 pink-border ">
+    <section
+      id="request-mdp"
+      className="min-h-screen flex items-center justify-center"
+    >
+      <div className="p-8">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center gap-5"
@@ -50,6 +53,6 @@ export default function RequestResetPassword() {
           {message && <p>{message}</p>}
         </form>
       </div>
-    </div>
+    </section>
   );
 }

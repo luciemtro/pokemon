@@ -12,7 +12,10 @@ export default function CardPage() {
   } = useCard();
 
   return (
-    <section>
+    <section
+      id="panier"
+      className="min-h-screen flex flex-col items-center justify-center"
+    >
       <h1>Votre Panier 🛒</h1>
       {card.length === 0 ? (
         <p>Le panier est vide.</p>

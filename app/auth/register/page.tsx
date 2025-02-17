@@ -36,55 +36,56 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="">
-      <div className="">
-        <h2 className="">Inscription</h2>
+    <section
+      id="registration"
+      className="min-h-screen flex flex-col items-center justify-center"
+    >
+      <h2 className="">Inscription</h2>
 
-        {message && <p className="mb-4 text-center text-red-500">{message}</p>}
+      {message && <p className="mb-4 text-center text-red-500">{message}</p>}
 
-        <form onSubmit={handleRegister}>
-          <div className=" ">
-            <label className="">Email</label>
-            <input
-              type="email"
-              className=""
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+      <form onSubmit={handleRegister}>
+        <div className=" ">
+          <label className="">Email</label>
+          <input
+            type="email"
+            className=""
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-          <div className="mb-4">
-            <label className="">Mot de passe</label>
-            <input
-              type="password"
-              className=""
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+        <div className="mb-4">
+          <label className="">Mot de passe</label>
+          <input
+            type="password"
+            className=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
 
-          <div className="mb-4">
-            <label className="">Role (optional)</label>
-            <select
-              className="w-full px-4 py-2"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+        <div className="mb-4">
+          <label className="">Role (optional)</label>
+          <select
+            className="w-full px-4 py-2"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
 
-          <div className="">
-            <button type="submit" className="w-full ">
-              S'inscrire
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div className="">
+          <button type="submit" className="w-full ">
+            S'inscrire
+          </button>
+        </div>
+      </form>
+    </section>
   );
 };
 

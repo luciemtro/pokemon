@@ -43,9 +43,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="pt-28 accountContainer">
-      <div className="containerFormAccount p-8 pink-border w-full max-w-md">
-        <h2 className="text-center uppercase pink-link ">Connexion</h2>
+    <section
+      id="login"
+      className="min-h-screen flex items-center justify-center"
+    >
+      <div className="p-8 w-full max-w-md">
+        <h2 className="text-center uppercase">Connexion</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleLogin} className="flex flex-col gap-4 mt-5 mb-5">
           <input
@@ -69,7 +72,7 @@ const LoginPage = () => {
           <Link href="/auth/reset-password/request">Mot de passe oublié ?</Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
