@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 // On garde le rendu dynamique si nécessaire
@@ -12,10 +12,17 @@ export default function ResetPassword() {
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
+  // ✅ Déplacement de `useSearchParams()` en haut du composant
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token"); // On récupère le token ici
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const searchParams = useSearchParams();
-    const token = searchParams.get("token");
+
+    if (!token) {
+      setMessage("❌ Token invalide ou expiré.");
+      return;
+    }
 
     const res = await fetch("/api/auth/reset-password/reset", {
       method: "POST",
@@ -56,20 +63,14 @@ export default function ResetPassword() {
         {/* 📜 Formulaire de réinitialisation */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* 🔒 Champ Nouveau Mot de Passe */}
-          <Suspense
-            fallback={
-              <div className="text-gray-400 text-center">⏳ Chargement...</div>
-            }
-          >
-            <input
-              type="password"
-              placeholder="Nouveau mot de passe"
-              value={newPassword}
-              className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
-          </Suspense>
+          <input
+            type="password"
+            placeholder="Nouveau mot de passe"
+            value={newPassword}
+            className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
 
           {/* 🟢 Bouton Réinitialiser */}
           <button

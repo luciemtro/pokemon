@@ -1,4 +1,3 @@
-// app/api/auth/reset-password/request/route.ts
 import { getConnection } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/mailer";
@@ -44,14 +43,29 @@ export async function POST(req: Request) {
 
     console.log("Token généré et stocké:", token);
 
-    // Envoyer l'email avec le lien de réinitialisation
+    // 🔗 Générer le lien de réinitialisation
     const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password/reset?token=${token}`;
     console.log("Lien de réinitialisation:", resetUrl);
 
-    const subject = "Réinitialisation de votre mot de passe";
-    const text = `Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ${resetUrl}`;
+    // 📩 Envoi de l'email avec un bouton cliquable
+    const subject = "🔑 Réinitialisation de votre mot de passe";
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f9f9f9;">
+        <h2 style="color: #333;">Réinitialisation de votre mot de passe</h2>
+        <p>Vous avez demandé à réinitialiser votre mot de passe.</p>
+        <p>Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe :</p>
+        <a href="${resetUrl}" 
+          style="display: inline-block; padding: 12px 20px; margin: 10px 0;
+          font-size: 16px; color: #fff; background-color: #007bff; 
+          text-decoration: none; border-radius: 5px;">
+          🔑 Réinitialiser mon mot de passe
+        </a>
+        <p>Si vous n'avez pas demandé de réinitialisation, ignorez cet email.</p>
+        <p style="color: #777;">L'équipe Pokémon Store</p>
+      </div>
+    `;
 
-    await sendEmail(email, subject, text);
+    await sendEmail(email, subject, htmlContent);
 
     return NextResponse.json(
       { message: "Email de réinitialisation envoyé." },

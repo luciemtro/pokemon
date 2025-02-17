@@ -1,16 +1,23 @@
-// app/api/auth/reset-password/reset.ts
 import { getConnection } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { RowDataPacket } from "mysql2";
 
 export async function POST(req: Request) {
-  const { token, newPassword } = await req.json();
-
-  const connection = await getConnection();
-
+  let connection;
   try {
-    // Vérifier si le token est valide et non expiré
+    const { token, newPassword } = await req.json();
+
+    if (!token || !newPassword) {
+      return NextResponse.json(
+        { message: "Token ou nouveau mot de passe manquant." },
+        { status: 400 }
+      );
+    }
+
+    connection = await getConnection();
+
+    // 📌 Vérifier si le token est valide et non expiré
     const [rows] = await connection.execute<RowDataPacket[]>(
       "SELECT id, email FROM users WHERE reset_token = ? AND reset_token_expiration > NOW()",
       [token]
@@ -26,27 +33,42 @@ export async function POST(req: Request) {
     const userId = rows[0].id;
     const userEmail = rows[0].email;
 
-    // Hacher le nouveau mot de passe
+    // 📌 Vérifier la force du mot de passe (optionnel)
+    if (newPassword.length < 6) {
+      return NextResponse.json(
+        { message: "Le mot de passe doit contenir au moins 6 caractères." },
+        { status: 400 }
+      );
+    }
+
+    // 📌 Hacher le nouveau mot de passe
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Mettre à jour le mot de passe et supprimer le token
+    // 📌 Mettre à jour le mot de passe et supprimer le token
     await connection.execute(
       "UPDATE users SET password = ?, reset_token = NULL, reset_token_expiration = NULL WHERE id = ?",
       [hashedPassword, userId]
     );
 
-    // Renvoyer l'email pour que le frontend puisse pré-remplir le champ dans la page de connexion
+    console.log(
+      `✅ Mot de passe réinitialisé pour l'utilisateur : ${userEmail}`
+    );
+
     return NextResponse.json({
-      message: "Mot de passe réinitialisé avec succès.",
-      email: userEmail, // Retourner l'email au frontend
+      message:
+        "Mot de passe réinitialisé avec succès. Vous pouvez maintenant vous connecter.",
+      email: userEmail,
     });
   } catch (error) {
-    console.error(error);
+    console.error(
+      "❌ Erreur lors de la réinitialisation du mot de passe :",
+      error
+    );
     return NextResponse.json(
-      { message: "Une erreur est survenue." },
+      { message: "Une erreur est survenue. Veuillez réessayer plus tard." },
       { status: 500 }
     );
   } finally {
-    connection.release();
+    if (connection) connection.release();
   }
 }

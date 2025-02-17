@@ -12,7 +12,7 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
   });
 
   const mailOptions = {
-    from: `"Avenue Mondaine" <no-reply@avenuemondaine.com>`, // Adresse expéditeur
+    from: `"Pokemon Store" <${process.env.EMAIL_FROM}>`, // Adresse expéditeur
     to: to, // Destinataire
     subject: subject, // Sujet de l'email
     html: html, // Contenu HTML au lieu de texte
