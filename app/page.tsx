@@ -40,7 +40,7 @@ export default function Home() {
           href="/catalogPokemon"
           className="absolute left-1/2 bottom-20 transform -translate-x-1/2 "
         >
-          <button className="btn-slanted-yellow">Explorer les Cartes</button>
+          <button className="btn-slanted-violet">Explorer les Cartes</button>
         </Link>
       </section>
     </main>
