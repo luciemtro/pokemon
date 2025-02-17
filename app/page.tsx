@@ -17,7 +17,8 @@ const images = [
 export default function Home() {
   return (
     <main>
-      <header></header>
+      <header className="pt-16 text-center px-6"></header>
+
       <section className="relative w-full h-full flex items-center justify-center bg-[url('/images/pokeball.webp')] bg-cover bg-center">
         {/* Gradient en cercle */}
         <div className="absolute inset-0 bg-radial-gradient pointer-events-none"></div>

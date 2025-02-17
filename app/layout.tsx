@@ -8,6 +8,7 @@ import "./styles/animations.scss";
 import "./styles/buttons.scss";
 import SessionProviderClient from "@/SessionProviderClient";
 import Navbar from "./navbar/navbar";
+import Footer from "./footer/page";
 import Home from "@/page"; // 🔥 Importe Home comme page par défaut
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({
           <CardProvider>
             <Navbar />
             {children || <Home />}
+            <Footer />
           </CardProvider>
         </SessionProviderClient>
       </body>
