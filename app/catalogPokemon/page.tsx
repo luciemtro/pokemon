@@ -38,7 +38,7 @@ export default function CatalogPokemon() {
   }
 
   return (
-    <section>
+    <section className="min-h-screen">
       <h1>Catalogue des cartes Pokémon</h1>
       {pokemons.length === 0 ? (
         <p>Aucune carte trouvée.</p>
