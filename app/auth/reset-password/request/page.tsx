@@ -36,12 +36,6 @@ export default function RequestResetPassword() {
 
   return (
     <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-10">
-      {/* 🔥 Background Cyberpunk */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
-      ></div>
-
       {/* 📩 Conteneur du formulaire */}
       <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
         <h1 className="text-3xl font-extrabold text-blue-400 text-center mb-6">

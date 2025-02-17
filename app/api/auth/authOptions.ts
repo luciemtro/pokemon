@@ -38,11 +38,22 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id || token.id;
         token.role = user.role || "user";
       }
+      console.log("🛠️ NextAuth JWT - Token reçu :", token);
+
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id as string;
-      session.user.role = token.role as string;
+      console.log("📦 Avant correction - Session NextAuth :", session);
+      console.log("🛠️ Token NextAuth :", token);
+
+      session.user = {
+        id: token.id as string, // 🔥 On force l'ajout de l'ID utilisateur
+        email: token.email,
+        role: token.role as string,
+      };
+
+      console.log("✅ Après correction - Session NextAuth :", session);
+
       return session;
     },
   },

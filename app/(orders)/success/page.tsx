@@ -12,12 +12,6 @@ export default function Success() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-10">
-      {/* 🔥 Background Cyberpunk */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
-      ></div>
-
       {/* ✅ Conteneur de succès */}
       <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md text-center">
         {/* ✅ Icône d'approbation */}

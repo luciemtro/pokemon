@@ -7,7 +7,7 @@ import { BsCart3 } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -15,7 +15,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Gestion du scroll pour changer la couleur de fond du header principal
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -80,9 +79,23 @@ const Navbar = () => {
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white text-blue-950 rounded-lg shadow-lg py-2 flex flex-col gap-2">
-                <Link href="/user/dashboard" className="px-4 py-2">
-                  Mes commandes
-                </Link>
+                {/* Condition pour afficher la bonne page */}
+                {session.user.role === "admin" ? (
+                  <Link
+                    href="/dashboard/admin"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    📦 Toutes les commandes
+                  </Link>
+                ) : (
+                  <Link
+                    href="/dashboard/user"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    🛍️ Mes commandes
+                  </Link>
+                )}
+
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 flex items-center gap-2 text-red-500 hover:opacity-80 transition-opacity"
@@ -151,13 +164,24 @@ const Navbar = () => {
             {/* Utilisateur en Mobile */}
             {status === "authenticated" && session?.user ? (
               <>
-                <Link
-                  href="/user/dashboard"
-                  className="hover:opacity-80 transition-opacity"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Mes commandes
-                </Link>
+                {session.user.role === "admin" ? (
+                  <Link
+                    href="/dashboard/admin"
+                    className="hover:opacity-80 transition-opacity"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    📦 Toutes les commandes
+                  </Link>
+                ) : (
+                  <Link
+                    href="/dashboard/user"
+                    className="hover:opacity-80 transition-opacity"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    🛍️ Mes commandes
+                  </Link>
+                )}
+
                 <button
                   onClick={() => {
                     handleLogout();

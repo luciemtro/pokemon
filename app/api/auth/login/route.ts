@@ -30,6 +30,7 @@ export async function POST(request: Request) {
     }
 
     const user = rows[0];
+    console.log("🔑 API Login - Utilisateur récupéré :", user);
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 

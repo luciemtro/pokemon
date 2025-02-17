@@ -67,12 +67,6 @@ export default function CatalogPokemon() {
 
   return (
     <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 bg-gray-900 text-white">
-      {/* 🔥 Background Cyberpunk */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
-      ></div>
-
       <h2 className="text-4xl font-extrabold text-blue-400 uppercase text-center relative z-10">
         Catalogue des cartes Pokémon
         <span className="block w-20 h-1 bg-blue-500 mx-auto mt-2"></span>

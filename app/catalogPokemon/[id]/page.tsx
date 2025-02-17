@@ -74,12 +74,6 @@ export default function PokemonPage() {
 
   return (
     <section className="relative flex flex-col md:flex-row gap-10 pt-28 pb-28 min-h-screen justify-center items-center bg-gray-900 text-white">
-      {/* 🔥 Background Image Fullscreen */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{ backgroundImage: "url('/images/cyberpunk-bg.jpg')" }}
-      ></div>
-
       {/* 🏆 Notifications */}
       {showNotification && (
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity animate-fade-in">

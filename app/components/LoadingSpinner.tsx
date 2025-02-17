@@ -10,13 +10,14 @@ export default function LoadingSpinner() {
         }}
       >
         <div
-          className="absolute w-24 h-24 rounded-full border-4 border-transparent animate-spin"
+          className="absolute w-28 h-28 rounded-full border-4 border-transparent animate-spin"
           style={{
             background: "conic-gradient(from 0deg, #19003a, #6200ff)",
             maskImage:
               "radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 51%)",
             WebkitMaskImage:
               "radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 51%)",
+            border: "4px solid #6200ff",
           }}
         ></div>
       </div>
