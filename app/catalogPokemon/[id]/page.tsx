@@ -75,7 +75,7 @@ export default function PokemonPage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <section className="relative flex flex-col md:flex-row gap-10 pt-28 pb-28 min-h-screen justify-center items-center  text-white">
+    <section className="relative flex flex-col md:flex-row gap-10 pt-20 pb-28 min-h-screen justify-center items-center  text-white">
       {/* 🏆 Notifications */}
       {showNotification && (
         <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl shadow-gray-500 transition-opacity animate-fade-in">

@@ -107,6 +107,13 @@ export default function PaymentPage() {
       >
         Voici toutes les cartes pour simuler des paiements stripe
       </a>
+      <p className="text-blue-950 text-center mt-4 max-w-4xl">
+        Vous pouvez également régler votre achat via Apple Pay ou d'autres
+        méthodes de paiement disponibles. Rassurez-vous, aucun montant ne sera
+        réellement débité. De plus, l'icône "Test" en haut à droite de la page
+        de paiement Stripe confirme qu'il s'agit d'un environnement de
+        développement et non d'une transaction en production.
+      </p>
     </section>
   );
 }
