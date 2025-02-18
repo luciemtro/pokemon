@@ -13,17 +13,8 @@
     background-size: 200% 200%;
   }
 
-  .text-body {
-    @apply font-nunito text-gray-800 text-base font-light leading-relaxed;
-  }
-  .text-price {
-    @apply font-montserrat font-extrabold text-green-400 tracking-wide;
-  }
   .nav-item {
     @apply font-poppins font-semibold text-blue-950 uppercase text-lg;
-  }
-  .nav-item-active {
-    @apply font-poppins font-semibold text-lg;
   }
 
   .amethyst-text {

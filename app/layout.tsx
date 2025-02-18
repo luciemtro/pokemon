@@ -2,7 +2,6 @@ import Head from "next/head";
 import { CardProvider } from "@/context/cardContext";
 import type { Metadata } from "next";
 import "@/styles/globals.scss";
-import "@/styles/roots.scss";
 import "@/styles/typography.scss";
 import "@/styles/animations.scss";
 import "@/styles/buttons.scss";
