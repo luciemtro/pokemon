@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useCard } from "@/context/cardContext";
 import Link from "next/link";
 import { FaCreditCard } from "react-icons/fa";
+import CreditCard from "@/utils/cardStripe";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -55,7 +56,7 @@ export default function PaymentPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen text-white p-10">
+    <section className="flex flex-col items-center justify-center min-h-screen text-white py-24 px-5">
       {/* 💳 Conteneur de paiement */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center">
         <h1 className="text-3xl font-extrabold amethyst-text-log mb-4">
@@ -101,11 +102,22 @@ export default function PaymentPage() {
           </Link>
         </div>
       </div>
+      <div className="mt-5 flex flex-col justify-center items-center gap-2">
+        <h3 className="text-blue-950">Carte de test - Aucun débit réel</h3>
+        <p className="text-gray-800 text-sm">
+          Utilisez cette carte pour tester le paiement. Il ne s’agit pas d’une
+          vraie transaction.
+        </p>
+
+        <CreditCard />
+      </div>
+
+      {/* ℹ️ Informations supplémentaires */}
       <a
         href="https://docs.stripe.com/testing?locale=fr-FR"
         className="text-blue-800 underline hover:text-blue-700 text-lg transition mt-6"
       >
-        Voici toutes les cartes pour simuler des paiements stripe
+        Toutes les cartes bancaire fictive pour simuler un paiement stripe
       </a>
       <p className="text-blue-950 text-center mt-4 max-w-4xl">
         Vous pouvez également régler votre achat via Apple Pay ou d'autres
