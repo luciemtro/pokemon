@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   FaUserPlus,
   FaEnvelope,
@@ -18,6 +19,14 @@ const RegisterPage = () => {
   const [message, setMessage] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const router = useRouter();
+  const { data: session } = useSession();
+
+  // 🔒 Redirection si l'utilisateur est déjà connecté
+  useEffect(() => {
+    if (session) {
+      router.push("/"); // Redirige vers la page d'accueil
+    }
+  }, [session, router]);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();

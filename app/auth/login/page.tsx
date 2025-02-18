@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 import {
   FaLock,
@@ -17,7 +18,15 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { data: session } = useSession();
+
   const router = useRouter();
+  // 🔒 Redirection si l'utilisateur est déjà connecté
+  useEffect(() => {
+    if (session) {
+      router.push("/"); // Redirige vers la page d'accueil
+    }
+  }, [session, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
