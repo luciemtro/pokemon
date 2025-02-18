@@ -4,6 +4,7 @@ import { PokemonCard } from "@/types/pokemon.types";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { pokemonTypes, typeColors } from "@/utils/pokemonColors";
+import ReactPaginate from "react-paginate";
 
 export default function CatalogPokemon() {
   const [pokemons, setPokemons] = useState<PokemonCard[]>([]);
@@ -11,16 +12,16 @@ export default function CatalogPokemon() {
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     async function getPokemons() {
       try {
         const response = await fetch("/api/pokemon");
-
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des cartes Pokémon.");
         }
-
         const data = await response.json();
         setPokemons(data.pokemons);
       } catch (err) {
@@ -29,14 +30,16 @@ export default function CatalogPokemon() {
         setLoading(false);
       }
     }
-
     getPokemons();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedType, searchTerm]);
 
   if (loading) {
     return <LoadingSpinner />;
   }
-
   if (error) {
     return <div className="text-red-500 text-center mt-10">{error}</div>;
   }
@@ -51,11 +54,16 @@ export default function CatalogPokemon() {
     return matchesType && matchesName;
   });
 
+  const offset = currentPage * itemsPerPage;
+  const currentPokemons = filteredPokemons.slice(offset, offset + itemsPerPage);
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+  };
+
   return (
     <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 bg-white text-gray-900">
       <h1 className="text-4xl amethyst-text font-extrabold text-center uppercase">
         Catalogue des cartes Pokémon
-        <span className="title-underline"></span>
       </h1>
 
       <div className="flex flex-col md:flex-row gap-4 items-center p-4 rounded-lg shadow-lg z-10">
@@ -66,7 +74,6 @@ export default function CatalogPokemon() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border border-purple-500 rounded px-4 py-2 w-64 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
         />
-
         <select
           id="typeSelect"
           className="border border-purple-500 rounded px-4 py-2 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
@@ -86,12 +93,11 @@ export default function CatalogPokemon() {
         <p className="text-gray-500">Aucun Pokémon trouvé.</p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10">
-          {filteredPokemons.map((pokemon) => {
+          {currentPokemons.map((pokemon) => {
             const [color1, color2] = typeColors[pokemon.types?.[0]] || [
               "#CCCCCC",
               "#AAAAAA",
-            ]; // Gris par défaut
-
+            ];
             return (
               <li
                 key={pokemon.id}
@@ -116,8 +122,6 @@ export default function CatalogPokemon() {
                     </div>
                   </Link>
                 )}
-
-                {/* 🌟 Types sous l’image */}
                 {pokemon.types && (
                   <div className="flex gap-3 mt-4 justify-center">
                     {pokemon.types.map((type) => (
@@ -130,7 +134,6 @@ export default function CatalogPokemon() {
                     ))}
                   </div>
                 )}
-
                 {pokemon.tcgplayer?.prices?.holofoil?.market ? (
                   <p className="text-white font-semibold">
                     💰 {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
@@ -143,6 +146,18 @@ export default function CatalogPokemon() {
           })}
         </ul>
       )}
+      <ReactPaginate
+        previousLabel={"← Précédent"}
+        nextLabel={"Suivant →"}
+        breakLabel={"..."}
+        pageCount={Math.ceil(filteredPokemons.length / itemsPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={3}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        disabledClassName={"disabled"}
+      />
     </section>
   );
 }
