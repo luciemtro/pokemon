@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
 import {
   FaLock,
   FaEnvelope,
@@ -47,8 +48,9 @@ const LoginPage = () => {
     <section className="flex items-center justify-center min-h-screen text-white p-6">
       {/* 🛡️ Conteneur du formulaire */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
-        <h1 className="text-3xl font-extrabold amethyst-text-log text-center mb-6 flex items-center justify-center gap-2">
-          <FaLock /> Connexion
+        <h1 className="text-3xl font-extrabold  text-center mb-6 flex items-center justify-center gap-2">
+          <FaLock className="text-purple-400" />{" "}
+          <span className="amethyst-text-log">Connexion</span>
         </h1>
 
         {/* 🔴 Affichage des erreurs */}

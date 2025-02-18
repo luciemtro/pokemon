@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { FaKey, FaSignInAlt } from "react-icons/fa";
 
 export default function RequestResetPassword() {
   const [email, setEmail] = useState("");
@@ -38,8 +39,9 @@ export default function RequestResetPassword() {
     <section className="flex items-center justify-center min-h-screen text-white p-10">
       {/* 📩 Conteneur du formulaire */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
-        <h1 className="text-2xl font-extrabold amethyst-text-log text-center mb-6">
-          📩 Mot de passe oublié ?
+        <h1 className="text-2xl font-extrabold amethyst-text-log text-center mb-6 flex gap-2 items-center">
+          <FaKey className="text-purple-400 text-5xl" />
+          <span className="amethyst-text-log"> Mot de passe oublié ?</span>
         </h1>
         <p className="text-gray-300 text-center mb-4">
           Entrez votre email et nous vous enverrons un lien de réinitialisation.
@@ -63,7 +65,7 @@ export default function RequestResetPassword() {
             type="email"
             placeholder="Votre adresse email"
             value={email}
-            className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-white text-black border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -71,9 +73,9 @@ export default function RequestResetPassword() {
           {/* 🟢 Bouton Envoyer */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/50 transform hover:scale-105"
+            className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/50 transform hover:scale-105 flex items-center justify-center gap-2"
           >
-            📤 Envoyer
+            <FaSignInAlt /> Envoyer
           </button>
         </form>
       </div>

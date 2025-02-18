@@ -65,7 +65,7 @@ const Navbar = () => {
           href="/catalogPokemon"
           className="hover:opacity-80 transition-opacity"
         >
-          Carte Pokémon
+          Cartes Pokémons
         </Link>
       </nav>
 

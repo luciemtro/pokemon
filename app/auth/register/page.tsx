@@ -51,8 +51,9 @@ const RegisterPage = () => {
     <section className="flex items-center justify-center min-h-screen text-white p-10">
       {/* 📜 Conteneur du formulaire */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
-        <h1 className="text-3xl font-extrabold amethyst-text-log text-center mb-6 flex items-center justify-center gap-2">
-          <FaUserPlus /> Inscription
+        <h1 className="text-3xl font-extrabold  text-center mb-6 flex items-center justify-center gap-2">
+          <FaUserPlus className="text-purple-400" />{" "}
+          <span className="amethyst-text-log">Inscription</span>
         </h1>
 
         {/* 🔴 Message d'erreur ou de succès */}
