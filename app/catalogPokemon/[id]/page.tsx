@@ -77,13 +77,13 @@ export default function PokemonPage() {
     <section className="relative flex flex-col md:flex-row gap-10 pt-28 pb-28 min-h-screen justify-center items-center  text-white">
       {/* 🏆 Notifications */}
       {showNotification && (
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl shadow-gray-500 transition-opacity animate-fade-in">
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl shadow-gray-500 transition-opacity animate-fade-in">
           ✅ Carte ajoutée au panier !
         </div>
       )}
 
       {showAlreadyInCart && (
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity animate-fade-in">
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity animate-fade-in">
           🛑 Cette carte est déjà dans le panier !
         </div>
       )}
@@ -114,9 +114,11 @@ export default function PokemonPage() {
 
       {/* 🏆 Informations Pokémon */}
       {pokemon && (
-        <div className="max-w-lg bg-opacity-90 background-card-violet p-6 rounded-lg shadow-2xl shadow-gray-700 flex flex-col items-start text-left gap-5 z-10">
+        <div className="w-80 bg-opacity-90 background-card-violet p-6 rounded-lg shadow-2xl shadow-gray-700 flex flex-col items-start text-left gap-5 z-10">
           {/* Badge de rareté stylisé */}
-          <span className="text-black">{pokemon.rarity}</span>
+          <span className="text-fuchsia-500 font-semibold">
+            {pokemon.rarity}
+          </span>
 
           {/* 🌟 Types */}
           {pokemon.types && (
@@ -142,7 +144,7 @@ export default function PokemonPage() {
             <ul className="list-disc list-inside text-gray-400">
               {pokemon.attacks.map((attack) => (
                 <li key={attack.name} className="mt-2">
-                  <span className="font-semibold text-gray-700">
+                  <span className="font-semibold text-white">
                     {attack.name}
                   </span>{" "}
                   - {attack.damage}

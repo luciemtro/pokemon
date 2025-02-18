@@ -19,7 +19,7 @@ export default function CardPage() {
   }, 0);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center background-marbre  pt-24 pb-16">
+    <section className="min-h-screen flex flex-col items-center justify-center  pt-24 pb-16">
       <h1 className="text-3xl font-extrabold amethyst-text uppercase">
         🛒 Votre Panier
         <span className="title-underline"></span>
@@ -28,12 +28,12 @@ export default function CardPage() {
         {card.length === 0 ? (
           <p className="text-lg text-gray-300">Le panier est vide.</p>
         ) : (
-          <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className=" w-3/4 bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
+            <ul className="flex flex-wrap gap-6">
               {card.map((pokemon) => (
                 <li
                   key={pokemon.id}
-                  className="flex items-center gap-4 p-4 border background-card-violet border-gray-700 rounded-lg shadow-xl shadow-gray-500"
+                  className="flex items-center gap-4 p-4 w-1/3 background-card-violet rounded-lg shadow-xl shadow-gray-500"
                 >
                   {/* Image Pokémon */}
                   <Image
