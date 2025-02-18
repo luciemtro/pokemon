@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <main>
       <header className="pt-20 pb-4 text-center px-6">
-        <h1 className="title-main">
+        <h1 className="amethyst-text text-4xl font-extrabold uppercase">
           Bienvenue sur Pokémon Store !<span className="title-underline"></span>
         </h1>
         <p className="mt-2 text-lg text-gray-700 max-w-4xl mx-auto">

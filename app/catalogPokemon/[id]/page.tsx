@@ -5,6 +5,7 @@ import { PokemonCard } from "@/types/pokemon.types";
 import { useCard } from "@/context/cardContext";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Image from "next/image";
+import { typeColors } from "@/utils/pokemonColors";
 
 export default function PokemonPage() {
   const { id } = useParams();
@@ -73,7 +74,7 @@ export default function PokemonPage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <section className="relative flex flex-col md:flex-row gap-10 pt-28 pb-28 min-h-screen justify-center items-center bg-gray-900 text-white">
+    <section className="relative flex flex-col md:flex-row gap-10 pt-28 pb-28 min-h-screen justify-center items-center bg-white text-white">
       {/* 🏆 Notifications */}
       {showNotification && (
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity animate-fade-in">
@@ -90,40 +91,49 @@ export default function PokemonPage() {
       {/* Image Pokémon avec effet Glow */}
       {pokemon && (
         <div className="relative flex flex-col items-center z-10">
-          <Image
-            src={pokemon.images.large}
-            alt={pokemon.name}
-            width={320}
-            height={420}
-            className="rounded-lg shadow-2xl border-4 border-blue-500 transition-transform transform hover:scale-105"
-          />
-          <span className="absolute top-2 left-2 bg-yellow-300 text-black px-3 py-1 rounded-lg font-bold">
-            {pokemon.rarity}
-          </span>
+          <div
+            className="card"
+            style={
+              {
+                "--color1": typeColors[pokemon.types?.[0]]?.[0] || "#CCCCCC",
+                "--color2": typeColors[pokemon.types?.[0]]?.[1] || "#AAAAAA",
+              } as React.CSSProperties
+            }
+          >
+            <Image
+              src={pokemon.images.large}
+              alt={pokemon.name}
+              width={320}
+              height={420}
+              className="rounded-lg w-full h-auto"
+            />
+          </div>
         </div>
       )}
 
       {/* 🏆 Informations Pokémon */}
       {pokemon && (
-        <div className="max-w-lg bg-opacity-80 bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-5 z-10">
-          <h1 className="text-4xl font-extrabold text-blue-400">
-            {pokemon.name}
-          </h1>
+        <div className="max-w-lg bg-opacity-90 bg-white p-6 rounded-lg shadow-2xl shadow-gray-700 flex flex-col items-start text-left gap-5 z-10">
+          {/* Badge de rareté stylisé */}
+          <span className="text-black">{pokemon.rarity}</span>
+
+          {/* 🌟 Types */}
+          {pokemon.types && (
+            <div className="">
+              {pokemon.types.map((type) => (
+                <span
+                  key={type}
+                  className={`pokemon-text ${type.toLowerCase()}`}
+                >
+                  {type}
+                </span>
+              ))}
+            </div>
+          )}
+          {/* 🌟 PV */}
           <p className="text-gray-300 text-lg">
             <strong>PV :</strong> {pokemon.hp}
           </p>
-
-          {/* 🌟 Types */}
-          <div className="flex gap-3">
-            {pokemon.types.map((type) => (
-              <span
-                key={type}
-                className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm shadow-lg"
-              >
-                {type}
-              </span>
-            ))}
-          </div>
 
           {/* ⚡ Attaques */}
           <div>
@@ -131,7 +141,7 @@ export default function PokemonPage() {
             <ul className="list-disc list-inside text-gray-400">
               {pokemon.attacks.map((attack) => (
                 <li key={attack.name} className="mt-2">
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-gray-700">
                     {attack.name}
                   </span>{" "}
                   - {attack.damage}

@@ -40,9 +40,9 @@ const LoginPage = () => {
     <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-6">
       {/* 🛡️ Conteneur du formulaire */}
       <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-3xl font-extrabold text-blue-400 text-center mb-6">
+        <h1 className="text-3xl font-extrabold text-blue-400 text-center mb-6">
           🔐 Connexion
-        </h2>
+        </h1>
 
         {/* 🔴 Affichage des erreurs */}
         {error && (

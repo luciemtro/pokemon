@@ -1,12 +1,17 @@
 @tailwind components;
 @layer components {
-  .title-main {
-    @apply text-4xl font-bold text-blue-950 uppercase text-center font-poppins;
-  }
-
   .title-underline {
     @apply h-1.5 w-80 block mx-auto mt-2 skew-x-[-15deg];
-    background-image: linear-gradient(90deg, #19003a, #6200ff);
+    background: linear-gradient(
+      90deg,
+      #4b0082,
+      #6f00ff,
+      #c8a2ff,
+      #6f00ff,
+      #4b0082
+    );
+    background-size: 400% 400%;
+    animation: shimmer 10s infinite ease-in-out;
   }
 
   .text-body {
@@ -20,5 +25,23 @@
   }
   .nav-item-active {
     @apply font-poppins font-semibold text-lg;
+  }
+
+  .amethyst-text {
+    @apply font-poppins;
+    background: linear-gradient(
+      90deg,
+      #4b0082,
+      #6f00ff,
+      #c8a2ff,
+      #6f00ff,
+      #4b0082
+    );
+
+    background-size: 400% 400%;
+    animation: shimmer 10s infinite ease-in-out;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
