@@ -8,7 +8,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaShoppingBag, FaBox } from "react-icons/fa";
+import { FaShoppingBag, FaBox, FaTimes } from "react-icons/fa";
 import { useCard } from "@/context/cardContext";
 
 const Navbar = () => {
@@ -159,7 +159,7 @@ const Navbar = () => {
               className="absolute top-4 right-4 text-2xl"
               onClick={() => setIsMenuOpen(false)}
             >
-              ✖
+              <FaTimes className="text-blue-950 text-4xl" />
             </button>
 
             <Link href="/" onClick={() => setIsMenuOpen(false)}>

@@ -1,5 +1,17 @@
 @tailwind components;
 @layer components {
+  p,
+  a,
+  span,
+  input,
+  label,
+  textarea,
+  select,
+  option,
+  Link {
+    @apply font-poppins;
+  }
+
   .title-underline {
     @apply h-1.5 w-80 block mx-auto mt-2 skew-x-[-15deg];
     background: linear-gradient(
