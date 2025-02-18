@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FaKey, FaRedo } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 // On garde le rendu dynamique si nécessaire
 export const dynamic = "force-dynamic";
@@ -12,6 +13,13 @@ export default function ResetPassword() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/"); // Redirige vers la page d'accueil
+    }
+  }, [session, router]);
 
   // ✅ Déplacement de `useSearchParams()` en haut du composant
   const searchParams = useSearchParams();
