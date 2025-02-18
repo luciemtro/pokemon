@@ -121,19 +121,29 @@ export default function PokemonPage() {
             {pokemon.rarity}
           </span>
 
-          {/* 🌟 Types */}
+          {/* 🌟 Types avec icônes */}
           {pokemon.types && (
-            <div className="">
+            <div className="flex gap-3 items-center mt-2">
               {pokemon.types.map((type) => (
-                <span
+                <div
                   key={type}
-                  className={`pokemon-text ${type.toLowerCase()}`}
+                  className="flex items-center gap-2 px-2 py-1 rounded-lg"
                 >
-                  {type}
-                </span>
+                  <span className={`pokemon-text ${type.toLowerCase()}`}>
+                    {type}
+                  </span>
+                  <Image
+                    src={`/images/icon-element-pokemon/${type.toLowerCase()}.png`}
+                    alt={type}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
               ))}
             </div>
           )}
+
           {/* 🌟 PV */}
           <p className="text-gray-300 text-lg">
             <strong>PV :</strong> {pokemon.hp}

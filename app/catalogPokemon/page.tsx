@@ -6,6 +6,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { pokemonTypes, typeColors } from "@/utils/pokemonColors";
 import ReactPaginate from "react-paginate";
 import { FaSackDollar } from "react-icons/fa6";
+import Image from "next/image";
 
 export default function CatalogPokemon() {
   const [pokemons, setPokemons] = useState<PokemonCard[]>([]);
@@ -129,15 +130,22 @@ export default function CatalogPokemon() {
                 {pokemon.types && (
                   <div className="flex gap-3 mt-4 justify-center">
                     {pokemon.types.map((type) => (
-                      <span
-                        key={type}
-                        className={`pokemon-text ${type.toLowerCase()}`}
-                      >
-                        {type}
-                      </span>
+                      <div key={type} className="flex items-center gap-2">
+                        <Image
+                          src={`/images/icon-element-pokemon/${type.toLowerCase()}.png`}
+                          alt={type}
+                          width={40}
+                          height={40}
+                          className="object-contain"
+                        />
+                        <span className={`pokemon-text ${type.toLowerCase()}`}>
+                          {type}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 )}
+
                 {pokemon.tcgplayer?.prices?.holofoil?.market ? (
                   <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center mt-3">
                     <FaSackDollar className=" text-2xl" />
