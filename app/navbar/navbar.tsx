@@ -168,6 +168,21 @@ const Navbar = () => {
             <Link href="/catalogPokemon" onClick={() => setIsMenuOpen(false)}>
               Carte Pokémon
             </Link>
+            <Link
+              href="/card"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex gap-2 relative"
+            >
+              <span className="hover:opacity-80 transition-opacity text-2xl">
+                <BsCart3 />
+              </span>
+              {card.length > 0 && (
+                <span className="absolute -top-2 left-4 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                  {card.reduce((total, item) => total + item.quantity, 0)}
+                </span>
+              )}
+              Mon panier
+            </Link>
 
             {/* Utilisateur en Mobile */}
             {status === "authenticated" && session?.user ? (
@@ -190,21 +205,6 @@ const Navbar = () => {
                     <FaBox className="text-blue-950 text-2xl" /> Mes commandes
                   </Link>
                 )}
-                <Link
-                  href="/card"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex gap-2 relative"
-                >
-                  <span className="hover:opacity-80 transition-opacity text-2xl">
-                    <BsCart3 />
-                  </span>
-                  {card.length > 0 && (
-                    <span className="absolute -top-2 left-4 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                      {card.reduce((total, item) => total + item.quantity, 0)}
-                    </span>
-                  )}
-                  Mon panier
-                </Link>
 
                 <button
                   onClick={() => {
