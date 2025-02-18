@@ -6,6 +6,7 @@ import { useCard } from "@/context/cardContext";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Image from "next/image";
 import { typeColors } from "@/utils/pokemonColors";
+import { FaSackDollar } from "react-icons/fa6";
 
 export default function PokemonPage() {
   const { id } = useParams();
@@ -172,9 +173,9 @@ export default function PokemonPage() {
           {/* 💰 Prix & Achat */}
           <div className="flex flex-col gap-2">
             {pokemon.tcgplayer?.prices?.holofoil?.market && (
-              <p className="text-xl font-semibold text-green-400">
-                💰 Prix : {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)}{" "}
-                €
+              <p className="text-xl font-semibold text-green-400 flex item-center gap-2">
+                <FaSackDollar className="text-green-500 text-2xl" />
+                Prix : {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
               </p>
             )}
             {pokemon.tcgplayer?.url && (

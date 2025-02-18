@@ -3,6 +3,8 @@ import { useCard } from "@/context/cardContext";
 import Link from "next/link";
 import Image from "next/image";
 import { FiTrash2 } from "react-icons/fi";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaCreditCard } from "react-icons/fa";
 
 export default function CardPage() {
   const {
@@ -49,9 +51,12 @@ export default function CardPage() {
                     <p className="text-xl font-bold text-white">
                       {pokemon.name}
                     </p>
-                    <p className="text-gray-400">{pokemon.rarity}</p>
-                    <p className="text-green-400 font-semibold">
-                      💰 {pokemon.price?.toFixed(2) || 0} €
+                    <p className="text-fuchsia-600 font-semibold">
+                      {pokemon.rarity}
+                    </p>
+                    <p className=" font-semibold text-yellow-200 flex gap-2 items-center">
+                      <FaSackDollar className="text-yellow-200 text-xl" />{" "}
+                      {pokemon.price?.toFixed(2) || 0} €
                     </p>
 
                     {/* Gestion quantité */}
@@ -74,21 +79,19 @@ export default function CardPage() {
                     </div>
                     <button
                       onClick={() => removeFromCard(pokemon.id)}
-                      className="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-800 transition absolute bottom-1 right-1"
+                      className="bg-white text-black px-3 py-2 rounded-lg hover:bg-gray-600 hover:text-white transition absolute bottom-1 right-1"
                     >
                       <FiTrash2 />
                     </button>
                   </div>
-
-                  {/* Bouton supprimer */}
                 </li>
               ))}
             </ul>
 
             {/* Total & Boutons */}
             <div className="mt-6 text-center">
-              <p className="text-2xl font-bold text-green-400">
-                💳 Total : {totalPrice.toFixed(2)} €
+              <p className="text-2xl font-bold text-violet-950">
+                Total : {totalPrice.toFixed(2)} €
               </p>
 
               <div className="flex justify-center gap-4 mt-4">
@@ -99,8 +102,9 @@ export default function CardPage() {
                   🗑️ Vider le panier
                 </button>
                 <Link href="/payment">
-                  <button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-500/50">
-                    💳 Passer au paiement
+                  <button className="bg-blue-500 flex item-center gap-2 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-500/50">
+                    <FaCreditCard className="white text-2xl" />
+                    Passer au paiement
                   </button>
                 </Link>
               </div>

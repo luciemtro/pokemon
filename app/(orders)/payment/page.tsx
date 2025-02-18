@@ -4,6 +4,7 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCard } from "@/context/cardContext";
 import Link from "next/link";
+import { FaCreditCard } from "react-icons/fa";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -63,7 +64,7 @@ export default function PaymentPage() {
 
         {/* 💰 Affichage du total */}
         <p className="text-xl text-green-400 font-bold">
-          💳 Total : {totalPrice.toFixed(2)} €
+          Total : {totalPrice.toFixed(2)} €
         </p>
 
         {/* 🛑 Message si le panier est vide */}
@@ -82,7 +83,14 @@ export default function PaymentPage() {
                 : "bg-blue-500 hover:bg-blue-700 transform hover:scale-105 shadow-blue-500/50"
             }`}
           >
-            {loading ? "⏳ Redirection..." : "💳 Payer avec Stripe"}
+            {loading ? (
+              "⏳ Redirection..."
+            ) : (
+              <span className="flex items-center gap-2">
+                <FaCreditCard className="text-white text-2xl" /> Payer avec
+                Stripe
+              </span>
+            )}
           </button>
 
           {/* 🔙 Retour à la boutique */}
@@ -93,6 +101,12 @@ export default function PaymentPage() {
           </Link>
         </div>
       </div>
+      <a
+        href="https://docs.stripe.com/testing?locale=fr-FR"
+        className="text-blue-800 underline hover:text-blue-700 text-lg transition mt-6"
+      >
+        Voici toutes les cartes pour simuler des paiements stripe
+      </a>
     </section>
   );
 }

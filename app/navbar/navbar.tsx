@@ -8,6 +8,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaShoppingBag } from "react-icons/fa";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -90,9 +91,9 @@ const Navbar = () => {
                 ) : (
                   <Link
                     href="/dashboard/user"
-                    className="px-4 py-2 hover:bg-gray-100"
+                    className="px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                   >
-                    🛍️ Mes commandes
+                    <FaShoppingBag className="text-xl" /> Mes commandes
                   </Link>
                 )}
 

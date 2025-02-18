@@ -5,6 +5,7 @@ import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { pokemonTypes, typeColors } from "@/utils/pokemonColors";
 import ReactPaginate from "react-paginate";
+import { FaSackDollar } from "react-icons/fa6";
 
 export default function CatalogPokemon() {
   const [pokemons, setPokemons] = useState<PokemonCard[]>([]);
@@ -103,7 +104,7 @@ export default function CatalogPokemon() {
             return (
               <li
                 key={pokemon.id}
-                className="background-card-violet relative lg:p-4 md:p-3 p-1 rounded-lg shadow-xl shadow-gray-500 text-center transform transition-transform hover:scale-105 hover:shadow-lg"
+                className="background-card-violet relative lg:p-3 md:p-3 p-1 rounded-lg shadow-xl shadow-gray-500 text-center transform transition-transform hover:scale-105 hover:shadow-lg"
               >
                 {pokemon.images?.small && (
                   <Link href={`/catalogPokemon/${pokemon.id}`}>
@@ -138,11 +139,14 @@ export default function CatalogPokemon() {
                   </div>
                 )}
                 {pokemon.tcgplayer?.prices?.holofoil?.market ? (
-                  <p className="text-white font-semibold">
-                    💰 {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
+                  <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center mt-3">
+                    <FaSackDollar className=" text-2xl" />
+                    {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
                   </p>
                 ) : (
-                  <p className="text-gray-300">💰 Prix non disponible</p>
+                  <p className="text-gray-400 flex items-center gap-2 justify-center mt-3">
+                    <FaSackDollar className=" text-2xl" /> Prix non disponible
+                  </p>
                 )}
               </li>
             );
