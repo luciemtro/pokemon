@@ -9,12 +9,14 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaShoppingBag, FaBox } from "react-icons/fa";
+import { useCard } from "@/context/cardContext";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { card } = useCard();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -116,13 +118,17 @@ const Navbar = () => {
             Connexion
           </Link>
         )}
-
-        {/* Icône du Panier */}
+        {/* Icône du Panier avec Badge */}
         <Link
           href="/card"
-          className="hover:opacity-80 transition-opacity text-2xl"
+          className="relative hover:opacity-80 transition-opacity text-2xl"
         >
           <BsCart3 />
+          {card.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+              {card.reduce((total, item) => total + item.quantity, 0)}
+            </span>
+          )}
         </Link>
       </div>
 
