@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Order } from "@/types/order.types";
-
+import { FaShoppingBag } from "react-icons/fa";
 export default function UserDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -24,17 +24,21 @@ export default function UserDashboard() {
 
   return (
     <section className=" pt-24 min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-center text-2xl md:text-3xl lg:text-4xl font-extrabold amethyst-text uppercase">
-        📜 Mes Commandes
-        <span className="title-underline"></span>
+      <h1 className="text-center text-2xl md:text-3xl lg:text-4xl font-extrabold  uppercase flex items-center gap-4">
+        <FaShoppingBag className="text-3xl text-blue-950" />{" "}
+        <span className="amethyst-text">Mes Commandes</span>
       </h1>
+      <span className="title-underline"></span>
       <div className=" w-full py-10 flex justify-center items-center">
         {orders.length === 0 ? (
           <p className="text-gray-400 mt-4">Aucune commande trouvée.</p>
         ) : (
-          <ul className=" space-y-4 flex flex-col w-[90%] shadow-xl shadow-gray-500 rounded-lg">
+          <ul className=" space-y-4 flex flex-col w-[90%] items-center">
             {orders.map((order) => (
-              <li key={order.id} className="bg-white p-6 rounded-lg shadow-xl">
+              <li
+                key={order.id}
+                className="bg-white p-5 rounded-lg shadow-xl w-full"
+              >
                 <h2 className="text-xl font-bold  text-indigo-900">
                   Commande #{order.id}
                 </h2>
@@ -60,11 +64,11 @@ export default function UserDashboard() {
                   <h3 className="text-lg font-semibold text-gray-900">
                     Cartes achetées :
                   </h3>
-                  <ul className="flex flex-wrap gap-4 mt-2">
+                  <ul className="flex flex-wrap gap-4 mt-2 justify-center">
                     {order.items.map((item) => (
                       <li
                         key={item.pokemon_id}
-                        className="background-card-violet p-5 rounded-lg  min-w-[320px] flex justify-around items-center"
+                        className="background-card-violet p-5 rounded-lg  min-w-[300px] flex justify-around items-center"
                       >
                         <img
                           src={item.image_url}
