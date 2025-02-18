@@ -61,12 +61,13 @@ export default function CatalogPokemon() {
   };
 
   return (
-    <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 bg-white text-gray-900">
-      <h1 className="text-4xl amethyst-text font-extrabold text-center uppercase">
+    <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 background-marbre text-gray-900">
+      <h1 className="lg:text-4xl md:text-3xl text-2xl amethyst-text font-extrabold text-center uppercase px-5">
         Catalogue des cartes Pokémon
+        <span className="title-underline"></span>
       </h1>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center p-4 rounded-lg shadow-lg z-10">
+      <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-lg shadow-lg z-10">
         <input
           type="text"
           placeholder="Rechercher un Pokémon..."
@@ -92,7 +93,7 @@ export default function CatalogPokemon() {
       {filteredPokemons.length === 0 ? (
         <p className="text-gray-500">Aucun Pokémon trouvé.</p>
       ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10 p-14 card-list">
+        <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10 lg:p-14 md:p-10 p-5 background-violet">
           {currentPokemons.map((pokemon) => {
             const [color1, color2, color3] = typeColors[pokemon.types?.[0]] || [
               "#CCCCCC",
@@ -102,11 +103,7 @@ export default function CatalogPokemon() {
             return (
               <li
                 key={pokemon.id}
-                className="relative p-4 rounded-lg shadow-lg text-center transform transition-transform hover:scale-105 hover:shadow-lg"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #1d083c, #4e0085, #1d083c)",
-                }}
+                className="background-card-violet relative lg:p-4 md:p-3 p-1 rounded-lg shadow-xl shadow-gray-500 text-center transform transition-transform hover:scale-105 hover:shadow-lg"
               >
                 {pokemon.images?.small && (
                   <Link href={`/catalogPokemon/${pokemon.id}`}>
@@ -123,7 +120,7 @@ export default function CatalogPokemon() {
                       <img
                         src={pokemon.images.small}
                         alt={pokemon.name}
-                        className="mx-auto mb-2 rounded-lg w-72 "
+                        className="mx-auto mb-2 rounded-lg w-72"
                       />
                     </div>
                   </Link>
@@ -152,18 +149,24 @@ export default function CatalogPokemon() {
           })}
         </ul>
       )}
-      <ReactPaginate
-        previousLabel={"← Précédent"}
-        nextLabel={"Suivant →"}
-        breakLabel={"..."}
-        pageCount={Math.ceil(filteredPokemons.length / itemsPerPage)}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={3}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        disabledClassName={"disabled"}
-      />
+      <div className="mb-6">
+        <ReactPaginate
+          previousLabel={"←"}
+          nextLabel={"→"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(filteredPokemons.length / itemsPerPage)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName="pagination flex flex-wrap justify-center items-center gap-2 mt-8"
+          pageClassName="px-3 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700 transition"
+          activeClassName="bg-indigo-600 text-white font-bold"
+          disabledClassName="opacity-50 cursor-not-allowed"
+          previousClassName="px-3 py-2 rounded-md bg-white text-white hover:bg-violet-200"
+          nextClassName="px-3 py-2 rounded-md bg-white text-white hover:bg-violet-200"
+          breakClassName="px-3 py-2 text-gray-400"
+        />
+      </div>
     </section>
   );
 }

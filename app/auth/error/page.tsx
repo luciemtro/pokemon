@@ -3,9 +3,9 @@ import Link from "next/link";
 
 const ErrorPage = () => {
   return (
-    <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-10">
+    <section className="flex items-center justify-center min-h-screen text-white p-10">
       {/* ❌ Conteneur de l'erreur */}
-      <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md text-center">
+      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center">
         {/* ⚠️ Icône d'avertissement */}
         <div className="text-red-500 text-6xl mb-4 animate-pulse">⚠️</div>
 

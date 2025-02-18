@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export default function Cancel() {
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-10">
+    <section className="flex flex-col items-center justify-center min-h-screen text-white p-10">
       {/* ❌ Conteneur d'annulation */}
-      <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md text-center">
+      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center">
         {/* ❌ Icône d'échec */}
         <div className="text-red-400 text-6xl mb-4 animate-pulse">❌</div>
 

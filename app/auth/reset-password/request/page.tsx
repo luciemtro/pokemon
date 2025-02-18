@@ -35,10 +35,10 @@ export default function RequestResetPassword() {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-10">
+    <section className="flex items-center justify-center min-h-screen text-white p-10">
       {/* 📩 Conteneur du formulaire */}
-      <div className="relative z-10 bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-extrabold text-blue-400 text-center mb-6">
+      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
+        <h1 className="text-2xl font-extrabold amethyst-text-log text-center mb-6">
           📩 Mot de passe oublié ?
         </h1>
         <p className="text-gray-300 text-center mb-4">
