@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FiTrash2 } from "react-icons/fi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCreditCard } from "react-icons/fa";
+import { typeColors } from "@/utils/pokemonColors";
 
 export default function CardPage() {
   const {
@@ -35,17 +36,30 @@ export default function CardPage() {
               {card.map((pokemon) => (
                 <li
                   key={pokemon.id}
-                  className="flex items-center gap-4 p-4 w-1/3 background-card-violet rounded-lg shadow-xl shadow-gray-500"
+                  className="flex items-center gap-4 p-2 w-1/3 background-card-violet rounded-lg shadow-xl shadow-gray-500"
                 >
                   {/* Image Pokémon */}
-                  <Image
-                    src={pokemon.images.small}
-                    alt={pokemon.name}
-                    width={110}
-                    height={130}
-                    className="rounded-lg shadow-md"
-                  />
-
+                  <div
+                    className="card"
+                    style={
+                      {
+                        "--color1":
+                          typeColors[pokemon.types?.[0]]?.[0] || "#CCCCCC",
+                        "--color2":
+                          typeColors[pokemon.types?.[0]]?.[1] || "#AAAAAA",
+                        "--color3":
+                          typeColors[pokemon.types?.[0]]?.[2] || "#888888",
+                      } as React.CSSProperties
+                    }
+                  >
+                    <Image
+                      src={pokemon.images.small}
+                      alt={pokemon.name}
+                      width={120}
+                      height={150}
+                      className="rounded-lg shadow-md"
+                    />
+                  </div>
                   {/* Infos Pokémon */}
                   <div className="flex-1 relative min-h-44">
                     <p className="text-xl font-bold text-white">
