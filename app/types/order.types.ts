@@ -13,5 +13,5 @@ export type Order = {
   total: number;
   status: "paid" | "pending" | "canceled";
   created_at: string;
-  items: OrderItem[]; // ✅ Ajout de la liste des cartes achetées
+  items: OrderItem[];
 };

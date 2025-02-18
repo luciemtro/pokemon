@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 h-16 ${
+      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 h-16 overflow-hidden ${
         isScrolled ? "bg-white shadow-xl" : "bg-white shadow-md"
       }`}
     >
@@ -181,6 +181,16 @@ const Navbar = () => {
                     🛍️ Mes commandes
                   </Link>
                 )}
+                <Link
+                  href="/card"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex gap-2"
+                >
+                  <span className="hover:opacity-80 transition-opacity text-2xl">
+                    <BsCart3 />
+                  </span>
+                  Mon panier
+                </Link>
 
                 <button
                   onClick={() => {

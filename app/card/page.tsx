@@ -2,6 +2,7 @@
 import { useCard } from "@/context/cardContext";
 import Link from "next/link";
 import Image from "next/image";
+import { FiTrash2 } from "react-icons/fi";
 
 export default function CardPage() {
   const {
@@ -43,7 +44,7 @@ export default function CardPage() {
                 />
 
                 {/* Infos Pokémon */}
-                <div className="flex-1">
+                <div className="flex-1 relative min-h-44">
                   <p className="text-xl font-bold">{pokemon.name}</p>
                   <p className="text-gray-400">{pokemon.rarity}</p>
                   <p className="text-green-400 font-semibold">
@@ -68,15 +69,15 @@ export default function CardPage() {
                       +
                     </button>
                   </div>
+                  <button
+                    onClick={() => removeFromCard(pokemon.id)}
+                    className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-800 transition absolute bottom-1 right-1"
+                  >
+                    <FiTrash2 />
+                  </button>
                 </div>
 
                 {/* Bouton supprimer */}
-                <button
-                  onClick={() => removeFromCard(pokemon.id)}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition"
-                >
-                  ❌ Supprimer
-                </button>
               </li>
             ))}
           </ul>
