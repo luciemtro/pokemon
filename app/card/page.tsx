@@ -6,8 +6,20 @@ import { FiTrash2 } from "react-icons/fi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCreditCard } from "react-icons/fa";
 import { typeColors } from "@/utils/pokemonColors";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function CardPage() {
+  const { data: session } = useSession(); // Vérifie la session utilisateur
+  const router = useRouter();
+
+  const handlePayment = () => {
+    if (!session) {
+      router.push("/auth/login"); // Redirige vers la connexion si non connecté
+    } else {
+      router.push("/payment"); // Redirige vers la page de paiement si connecté
+    }
+  };
   const {
     card,
     removeFromCard,
@@ -115,12 +127,14 @@ export default function CardPage() {
                 >
                   🗑️ Vider le panier
                 </button>
-                <Link href="/payment">
-                  <button className="bg-blue-500 flex item-center gap-2 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-500/50">
-                    <FaCreditCard className="white text-2xl" />
-                    Passer au paiement
-                  </button>
-                </Link>
+
+                <button
+                  onClick={handlePayment}
+                  className="bg-blue-500 flex item-center gap-2 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-500/50"
+                >
+                  <FaCreditCard className="white text-2xl" />
+                  Passer au paiement
+                </button>
               </div>
             </div>
           </div>
