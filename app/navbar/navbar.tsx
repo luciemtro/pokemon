@@ -8,7 +8,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaBox } from "react-icons/fa";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -84,9 +84,10 @@ const Navbar = () => {
                 {session.user.role === "admin" ? (
                   <Link
                     href="/dashboard/admin"
-                    className="px-4 py-2 hover:bg-gray-100"
+                    className="px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                   >
-                    📦 Toutes les commandes
+                    <FaBox className="text-2xl" />
+                    Toutes les commandes
                   </Link>
                 ) : (
                   <Link
@@ -168,10 +169,11 @@ const Navbar = () => {
                 {session.user.role === "admin" ? (
                   <Link
                     href="/dashboard/admin"
-                    className="hover:opacity-80 transition-opacity"
+                    className="hover:opacity-80 transition-opacity flex items-center gap-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    📦 Toutes les commandes
+                    <FaBox className="text-brown-500 text-2xl" />
+                    Toutes les commandes
                   </Link>
                 ) : (
                   <Link

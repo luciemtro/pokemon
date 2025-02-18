@@ -34,7 +34,7 @@ export default function AdminDashboard() {
   return (
     <section className=" pt-24 min-h-screen text-white">
       <h1 className="text-center text-2xl md:text-3xl lg:text-4xl font-extrabold amethyst-text uppercase">
-        📦 <span>Toutes les Commandes</span>
+        <span>Toutes les Commandes</span>
         <span className="title-underline"></span>
       </h1>
       {orders.length === 0 ? (
