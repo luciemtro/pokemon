@@ -34,14 +34,14 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 h-16 overflow-hidden ${
+      className={`fixed top-0 w-full z-[1000] px-8 py-4 flex items-center justify-between transition-all duration-300 h-16  ${
         isScrolled ? "bg-white shadow-xl" : "bg-white shadow-md"
       }`}
     >
       {/* Logo */}
       <Link
         href="/"
-        className="text-blue-950 uppercase text-lg font-semibold flex items-center gap-2 absolute left-8 top-2"
+        className="nav-item flex items-center gap-2 absolute left-8 top-2"
       >
         <Image
           src="/images/logo-pokemon.webp"
@@ -54,7 +54,7 @@ const Navbar = () => {
       </Link>
 
       {/* Navigation - Desktop */}
-      <nav className="hidden md:flex flex-1 justify-center gap-8 text-lg font-semibold text-blue-950 uppercase">
+      <nav className="hidden md:flex flex-1 justify-center gap-8  nav-item">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           Accueil
         </Link>

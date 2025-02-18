@@ -1,24 +1,24 @@
 @tailwind components;
 @layer components {
   .title-main {
-    @apply font-poppins font-extrabold italic text-3xl md:text-4xl text-black uppercase;
+    @apply text-4xl font-bold text-blue-950 uppercase text-center font-poppins;
   }
 
   .title-underline {
-    @apply bg-violet-900 h-1.5 w-80 block mx-auto mt-2 skew-x-[-15deg];
+    @apply h-1.5 w-80 block mx-auto mt-2 skew-x-[-15deg];
+    background-image: linear-gradient(90deg, #19003a, #6200ff);
   }
 
   .text-body {
     @apply font-nunito text-gray-800 text-base font-light leading-relaxed;
   }
   .text-price {
-    @apply font-montserrat text-lg font-normal text-black;
+    @apply font-montserrat font-extrabold text-green-400 tracking-wide;
   }
-  .nav-item,
-  .title-secondary {
-    @apply font-poppins font-extrabold uppercase text-base  text-black;
+  .nav-item {
+    @apply font-poppins font-semibold text-blue-950 uppercase text-lg;
   }
-  .nav-account {
-    @apply font-poppins font-semibold uppercase text-xs  text-white;
+  .nav-item-active {
+    @apply font-poppins font-semibold text-lg;
   }
 }

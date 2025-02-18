@@ -19,7 +19,7 @@ export default function CardPage() {
   }, 0);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-10">
+    <section className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-10 pt-28">
       <h1 className="text-4xl font-extrabold text-blue-400 mb-6">
         🛒 Votre Panier
       </h1>
@@ -71,7 +71,7 @@ export default function CardPage() {
                   </div>
                   <button
                     onClick={() => removeFromCard(pokemon.id)}
-                    className="bg-red-600 text-white p-2 rounded-lg hover:bg-red-800 transition absolute bottom-1 right-1"
+                    className="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-800 transition absolute bottom-1 right-1"
                   >
                     <FiTrash2 />
                   </button>
