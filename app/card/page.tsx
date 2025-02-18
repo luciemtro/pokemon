@@ -31,12 +31,12 @@ export default function CardPage() {
         {card.length === 0 ? (
           <p className="text-lg text-gray-300">Le panier est vide.</p>
         ) : (
-          <div className=" w-3/4 bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
+          <div className=" w-[90%] bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
             <ul className="flex flex-wrap gap-6">
               {card.map((pokemon) => (
                 <li
                   key={pokemon.id}
-                  className="flex items-center gap-4 p-2 w-1/3 background-card-violet rounded-lg shadow-xl shadow-gray-500"
+                  className="flex items-center gap-4 p-2 min-w-[300px] background-card-violet rounded-lg shadow-xl shadow-gray-500"
                 >
                   {/* Image Pokémon */}
                   <div
@@ -111,7 +111,7 @@ export default function CardPage() {
               <div className="flex justify-center gap-4 mt-4">
                 <button
                   onClick={clearCard}
-                  className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition shadow-md"
+                  className="bg-gray-600 text-white lg:px-6 lg:py-3 rounded-lg hover:bg-gray-800 transition shadow-md"
                 >
                   🗑️ Vider le panier
                 </button>

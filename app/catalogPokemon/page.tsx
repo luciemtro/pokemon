@@ -147,7 +147,7 @@ export default function CatalogPokemon() {
                 )}
 
                 {pokemon.tcgplayer?.prices?.holofoil?.market ? (
-                  <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center mt-3">
+                  <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center mt-3 mb-5">
                     <FaSackDollar className=" text-2xl" />
                     {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
                   </p>
