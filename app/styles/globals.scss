@@ -33,3 +33,23 @@ body {
 .pagination .disabled {
   @apply opacity-50 cursor-not-allowed;
 }
+
+.card-list {
+  background-image: linear-gradient(95deg, #1a0736, #4b0082, #1a0736);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/bg-transparent.png");
+    background-size: cover;
+    z-index: -1;
+    opacity: 0.3;
+  }
+}

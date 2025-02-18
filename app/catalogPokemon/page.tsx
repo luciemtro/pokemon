@@ -13,7 +13,7 @@ export default function CatalogPokemon() {
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 20;
+  const itemsPerPage = 16;
 
   useEffect(() => {
     async function getPokemons() {
@@ -92,16 +92,21 @@ export default function CatalogPokemon() {
       {filteredPokemons.length === 0 ? (
         <p className="text-gray-500">Aucun Pokémon trouvé.</p>
       ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10 p-14 card-list">
           {currentPokemons.map((pokemon) => {
-            const [color1, color2] = typeColors[pokemon.types?.[0]] || [
+            const [color1, color2, color3] = typeColors[pokemon.types?.[0]] || [
               "#CCCCCC",
               "#AAAAAA",
+              "#888888",
             ];
             return (
               <li
                 key={pokemon.id}
                 className="relative p-4 rounded-lg shadow-lg text-center transform transition-transform hover:scale-105 hover:shadow-lg"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #1d083c, #4e0085, #1d083c)",
+                }}
               >
                 {pokemon.images?.small && (
                   <Link href={`/catalogPokemon/${pokemon.id}`}>
@@ -111,13 +116,14 @@ export default function CatalogPokemon() {
                         {
                           "--color1": color1,
                           "--color2": color2,
+                          "--color3": color3,
                         } as React.CSSProperties
                       }
                     >
                       <img
                         src={pokemon.images.small}
                         alt={pokemon.name}
-                        className="mx-auto mb-2 rounded-lg w-72 shadow-md"
+                        className="mx-auto mb-2 rounded-lg w-72 "
                       />
                     </div>
                   </Link>

@@ -97,6 +97,7 @@ export default function PokemonPage() {
               {
                 "--color1": typeColors[pokemon.types?.[0]]?.[0] || "#CCCCCC",
                 "--color2": typeColors[pokemon.types?.[0]]?.[1] || "#AAAAAA",
+                "--color3": typeColors[pokemon.types?.[0]]?.[2] || "#888888",
               } as React.CSSProperties
             }
           >
