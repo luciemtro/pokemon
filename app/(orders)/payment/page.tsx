@@ -56,9 +56,9 @@ export default function PaymentPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen text-white py-24 px-5">
+    <section className="flex flex-wrap justify-center min-h-screen text-white py-24 px-5 gap-10">
       {/* 💳 Conteneur de paiement */}
-      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center">
+      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center h-[280px]">
         <h1 className="text-3xl font-extrabold amethyst-text-log mb-4">
           Paiement 🛒
         </h1>
@@ -72,7 +72,7 @@ export default function PaymentPage() {
         {card.length === 0 && (
           <p className="text-red-400 mt-2">Votre panier est vide !</p>
         )}
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 ">
           {/* 🎉 Bouton de paiement */}
           <button
             onClick={handleCheckout}
@@ -102,7 +102,7 @@ export default function PaymentPage() {
           </Link>
         </div>
       </div>
-      <div className="mt-5 flex flex-col justify-center items-center gap-2">
+      <div className=" flex flex-col gap-2   text-center md:text-left lg:text-left shadow-xl shadow-gray-500 rounded-md p-5 md:pt-5 lg:pt-5 pt-10 ">
         <h3 className="text-blue-950">Carte de test - Aucun débit réel</h3>
         <p className="text-gray-800 text-sm">
           Utilisez cette carte pour tester le paiement. Il ne s’agit pas d’une
@@ -110,22 +110,22 @@ export default function PaymentPage() {
         </p>
 
         <CreditCard />
-      </div>
 
-      {/* ℹ️ Informations supplémentaires */}
-      <a
-        href="https://docs.stripe.com/testing?locale=fr-FR"
-        className="text-blue-800 underline hover:text-blue-700 text-lg transition mt-6"
-      >
-        Toutes les cartes bancaire fictive pour simuler un paiement stripe
-      </a>
-      <p className="text-blue-950 text-center mt-4 max-w-4xl">
-        Vous pouvez également régler votre achat via Apple Pay ou d'autres
-        méthodes de paiement disponibles. Rassurez-vous, aucun montant ne sera
-        réellement débité. De plus, l'icône "Test" en haut à droite de la page
-        de paiement Stripe confirme qu'il s'agit d'un environnement de
-        développement et non d'une transaction en production.
-      </p>
+        {/* ℹ️ Informations supplémentaires */}
+        <a
+          href="https://docs.stripe.com/testing?locale=fr-FR"
+          className="text-blue-800 underline hover:text-blue-700 text-lg transition mt-6"
+        >
+          Toutes les cartes bancaire fictive pour simuler un paiement stripe
+        </a>
+        <p className="text-blue-950 text-center lg:text-left md:text-left mt-4 max-w-4xl">
+          Vous pouvez également régler votre achat via Apple Pay ou d'autres
+          méthodes de paiement disponibles. Rassurez-vous, aucun montant ne sera
+          réellement débité. De plus, l'icône "Test" en haut à droite de la page
+          de paiement Stripe confirme qu'il s'agit d'un environnement de
+          développement et non d'une transaction en production.
+        </p>
+      </div>
     </section>
   );
 }
