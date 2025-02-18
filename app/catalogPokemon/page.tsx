@@ -61,7 +61,7 @@ export default function CatalogPokemon() {
   };
 
   return (
-    <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 background-marbre text-gray-900">
+    <section className="relative min-h-screen pt-20 flex flex-col items-center gap-10 text-gray-900">
       <h1 className="lg:text-4xl md:text-3xl text-2xl amethyst-text font-extrabold text-center uppercase px-5">
         Catalogue des cartes Pokémon
         <span className="title-underline"></span>
