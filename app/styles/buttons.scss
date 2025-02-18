@@ -3,7 +3,7 @@
 @layer components {
   // Bouton incliné et droit jaune
   .btn-slanted-violet {
-    @apply font-poppins font-extrabold px-5 py-3 bg-white text-black uppercase 
+    @apply font-extrabold px-5 py-3 bg-white text-black uppercase 
     relative overflow-hidden text-2xl border-none outline-none focus:ring-0 
     transition-transform duration-500 ease-out hover:scale-110;
     border: none;

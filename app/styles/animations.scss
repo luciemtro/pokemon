@@ -34,7 +34,7 @@
 
 /* 🎨 Appliquer les variables dynamiques pour chaque type */
 .pokemon-text {
-  @apply font-poppins font-bold text-center;
+  @apply font-bold text-center;
   background: linear-gradient(
     90deg,
     var(--color1),

@@ -21,7 +21,7 @@ export default function LoadingSpinner() {
           }}
         ></div>
       </div>
-      <span className="font-poppins font-extrabold uppercase pt-10 text-xl text-blue-950">
+      <span className="font-extrabold uppercase pt-10 text-xl text-blue-950">
         Chargement en cours...
       </span>
     </section>
