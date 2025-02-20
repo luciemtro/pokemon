@@ -127,7 +127,7 @@ Remplace ton `EMAIL_PASS` dans **.env.local** avec ce mot de passe généré :
 ```ini
 EMAIL_USER=ton-adresse@gmail.com
 EMAIL_PASS=mot-de-passe-google-généré
-
+```
 4. **Lancer le projet**
    ```sh
    npm run dev
