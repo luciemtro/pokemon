@@ -59,10 +59,10 @@ export async function POST(request: Request) {
 
     // Envoyer un e-mail de bienvenue
     const subject = "Bienvenue sur mon site Pokémon !";
-    const text = `Bonjour,\n\nMerci de vous être inscrit !\n\nBienvenue à bord !`;
+    const htmlContent = `Bonjour,\n\nMerci de vous être inscrit !\n\nBienvenue à bord !`;
 
     try {
-      await sendEmail(email, subject, text);
+      await sendEmail(email, subject, htmlContent);
       console.log("📩 Email de bienvenue envoyé avec succès");
     } catch (emailError) {
       console.warn("⚠️ Erreur lors de l'envoi de l'email :", emailError);

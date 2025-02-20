@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { getConnection } from "@/lib/db";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import nodemailer from "nodemailer";
+import { generateOrderEmail } from "@/utils/emailTemplate"; // 🔥 Importation du template d'email stylisé
 
 // 🔥 Initialisation de Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -13,30 +14,34 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 async function sendConfirmationEmail(
   to: string,
   orderId: number,
-  products: any[]
+  products: any[],
+  totalAmount: number
 ) {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === "true", // `false` pour TLS (port 587), `true` pour SSL (port 465)
+      secure: process.env.SMTP_SECURE === "true",
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
     });
 
-    // 🔥 Construire le contenu de l'email
-    const productList = products
-      .map((p) => `- ${p.name} (${p.price}€)`)
-      .join("\n");
+    // 🔥 Génération du contenu HTML de l'email
+    const emailHtml = generateOrderEmail(
+      orderId.toString(),
+      products,
+      totalAmount
+    );
 
     const mailOptions = {
       from: `"Pokémon Store" <${process.env.EMAIL_FROM}>`,
       to,
       subject: `🛒 Confirmation de votre commande #${orderId}`,
-      text: `Bonjour,\n\nMerci pour votre achat ! 🎉\n\nDétails de votre commande :\n${productList}\n\nVotre commande sera traitée sous peu.\n\nMerci pour votre confiance !\n\nL'équipe Pokémon Store`,
+      html: emailHtml, // ✅ Utilisation du template HTML
     };
+    console.log("📝 Email HTML généré :", emailHtml);
 
     // 📩 Envoyer l'email
     await transporter.sendMail(mailOptions);
@@ -93,7 +98,6 @@ export async function POST(req: Request) {
         );
       }
 
-      // ✅ Vérifier que metadata.products existe et contient des produits
       if (!session.metadata || !session.metadata.products) {
         console.error("❌ `metadata.products` est vide ou absent !");
         return NextResponse.json(
@@ -160,39 +164,22 @@ export async function POST(req: Request) {
       `;
 
       for (const product of products) {
-        const productId = product.id || "unknown";
-        const productName = product.name || "Nom inconnu";
-        const productImage = product.image || "https://via.placeholder.com/150";
-        const productPrice = product.price ?? 0;
-        const productQuantity = 1;
-
-        console.log(
-          `🛒 Ajout du produit : ${productName} (ID: ${productId}, Prix: ${productPrice}, Image: ${productImage})`
-        );
-
-        try {
-          await connection.execute(insertOrderItemSql, [
-            orderId,
-            productId,
-            productName,
-            productImage,
-            productPrice,
-            productQuantity,
-          ]);
-          console.log("✅ Produit inséré :", productName);
-        } catch (error) {
-          console.error(
-            `❌ Erreur lors de l'insertion du produit ${productName} :`,
-            error
-          );
-        }
+        await connection.execute(insertOrderItemSql, [
+          orderId,
+          product.id || "unknown",
+          product.name || "Nom inconnu",
+          product.image || "https://via.placeholder.com/150",
+          product.price ?? 0,
+          1, // 📌 Supposons que la quantité est toujours 1 (corrige si nécessaire)
+        ]);
+        console.log("✅ Produit inséré :", product.name);
       }
 
       await connection.commit();
       console.log("✅ Commande et items enregistrés en BDD !");
 
-      // 📩 Envoi de l'email de confirmation
-      await sendConfirmationEmail(customerEmail, orderId, products);
+      // 📩 Envoi de l'email stylisé de confirmation
+      await sendConfirmationEmail(customerEmail, orderId, products, totalFee);
 
       return NextResponse.json({ success: true });
     }
@@ -202,8 +189,8 @@ export async function POST(req: Request) {
     console.error("❌ Erreur Webhook Stripe :", error);
     if (connection) {
       await connection.rollback();
-      return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
     }
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   } finally {
     if (connection) connection.release();
   }

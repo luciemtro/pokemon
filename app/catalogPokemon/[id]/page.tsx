@@ -118,7 +118,7 @@ export default function PokemonPage() {
           {pokemon.types && (
             <div className="flex flex-col">
               {pokemon.types.map((type) => (
-                <div>
+                <div key={type}>
                   <h3
                     className={`text-lg pokemon-text !text-left ${type.toLowerCase()}`}
                   >
