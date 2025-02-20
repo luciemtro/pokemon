@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCard } from "@/context/cardContext";
 import Link from "next/link";
@@ -12,9 +12,15 @@ const stripePromise = loadStripe(
 );
 
 export default function PaymentPage() {
-  const { card } = useCard();
+  const { card, setCard } = useCard();
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+    const storedCart = localStorage.getItem("card");
+    if (storedCart) {
+      console.log("🔄 Chargement du panier depuis localStorage :", storedCart);
+      setCard(JSON.parse(storedCart));
+    }
+  }, []);
   // Calcul du total
   const totalPrice = card.reduce((total, pokemon) => {
     return total + (pokemon.price || 0) * pokemon.quantity;
@@ -28,8 +34,9 @@ export default function PaymentPage() {
 
     try {
       setLoading(true);
-      console.log("🔄 Envoi des données du panier à Stripe...");
-      console.log("📦 Panier envoyé à Stripe :", card);
+
+      localStorage.setItem("card", JSON.stringify(card));
+      console.log("📦 Panier envoyé à Stripe :", JSON.stringify(card, null, 2));
 
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -58,11 +65,17 @@ export default function PaymentPage() {
   return (
     <section className="flex flex-wrap justify-center min-h-screen text-white py-24 px-5 gap-10">
       {/* 💳 Conteneur de paiement */}
-      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center h-[280px]">
+      <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md text-center h-auto">
         <h1 className="text-3xl font-extrabold amethyst-text-log mb-4">
           Paiement 🛒
         </h1>
-
+        <ul>
+          {card.map((pokemon) => (
+            <li key={pokemon.id}>
+              {pokemon.name} x {pokemon.quantity}
+            </li>
+          ))}
+        </ul>
         {/* 💰 Affichage du total */}
         <p className="text-xl text-green-400 font-bold">
           Total : {totalPrice.toFixed(2)} €

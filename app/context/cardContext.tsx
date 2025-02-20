@@ -8,6 +8,7 @@ interface CardItem extends PokemonCard {
 
 interface CardContextType {
   card: CardItem[];
+  setCard: React.Dispatch<React.SetStateAction<CardItem[]>>; // ✅ Ajout de setCard
   addToCard: (pokemon: PokemonCard) => void;
   removeFromCard: (id: string) => void;
   clearCard: () => void;
@@ -23,6 +24,7 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setIsMounted(true);
+    console.log("📌 Mise à jour du localStorage avec le panier :", card);
     const storedCart = localStorage.getItem("card");
     if (storedCart) {
       try {
@@ -90,6 +92,7 @@ export const CardProvider = ({ children }: { children: React.ReactNode }) => {
     <CardContext.Provider
       value={{
         card,
+        setCard,
         addToCard,
         removeFromCard,
         clearCard,

@@ -9,8 +9,15 @@ export async function POST(req: Request) {
   try {
     const { card } = await req.json();
 
+    // 📦 1️⃣ Vérifie les données envoyées par le frontend
+    console.log(
+      "📦 Données du panier reçues sur le backend:",
+      JSON.stringify(card, null, 2)
+    );
+
     // 🚨 Vérifie que le panier contient des articles
     if (!card || card.length === 0) {
+      console.error("❌ ERREUR: Le panier est vide !");
       return NextResponse.json(
         { error: "Le panier est vide" },
         { status: 400 }
@@ -29,9 +36,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔥 Transformation en `line_items` pour Stripe
+    // 🔄 2️⃣ Transformation en `line_items` pour Stripe
     const lineItems = card.map(
-      (p: { name: string; price: number; images: { small: string } }) => ({
+      (p: {
+        name: string;
+        price: number;
+        images: { small: string };
+        quantity: number;
+      }) => ({
         price_data: {
           currency: "eur",
           product_data: {
@@ -40,27 +52,17 @@ export async function POST(req: Request) {
           },
           unit_amount: Math.round(p.price * 100), // Convertir en cents
         },
-        quantity: 1,
+        quantity: p.quantity, // ✅ Correction : Utilisation de la quantité correcte
       })
     );
 
-    // 🛒 Calcul du montant total (Stripe exige un minimum de 50 cents)
-    const totalAmount = lineItems.reduce(
-      (acc: number, item: { price_data: { unit_amount: number } }) =>
-        acc + item.price_data.unit_amount,
-      0
+    // 🛒 3️⃣ Vérifie le contenu final des articles avant envoi à Stripe
+    console.log(
+      "🛒 Contenu final des articles envoyés à Stripe:",
+      JSON.stringify(lineItems, null, 2)
     );
-    if (totalAmount < 50) {
-      console.error("❌ ERREUR: Montant total insuffisant !");
-      return NextResponse.json(
-        { error: "Le montant total doit être d'au moins 0.50 EUR !" },
-        { status: 400 }
-      );
-    }
 
-    console.log("📦 Items envoyés à Stripe :", lineItems);
-
-    // 🏁 Création de la session Stripe
+    // 🏁 4️⃣ Création de la session Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -75,6 +77,7 @@ export async function POST(req: Request) {
           ) /
             100 +
           " EUR",
+
         products: JSON.stringify(
           card.map(
             (p: {
@@ -86,7 +89,7 @@ export async function POST(req: Request) {
               id: p.id,
               name: p.name,
               price: p.price,
-              image: p.images?.small || "https://via.placeholder.com/150", // Valeur par défaut si l'image est absente
+              image: p.images?.small || "https://via.placeholder.com/150",
             })
           )
         ),
@@ -96,7 +99,7 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/card`,
     });
 
-    // 🚀 Vérifie si la session Stripe est bien créée
+    // ✅ 5️⃣ Vérifie si Stripe a bien créé la session
     if (!session || !session.id) {
       console.error("❌ ERREUR: `sessionId` manquant !");
       return NextResponse.json(
