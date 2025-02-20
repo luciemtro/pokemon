@@ -105,6 +105,29 @@ POKEMON_TCG_API_KEY=your-api-key
 
 ⚠️ Ne partage jamais ces informations sensibles publiquement ! Pense à ajouter .env.local à ton .gitignore.
 
+## 📧 Configuration de Gmail pour Nodemailer
+
+Si tu utilises une adresse **Gmail** pour envoyer des emails depuis ton application, Google peut bloquer l’accès pour des raisons de sécurité. Voici les étapes pour éviter ce problème :
+
+### 🔹 Utiliser un "Mot de passe d'application" (Recommandé)
+Google propose une solution plus sécurisée via des **mots de passe d'application** :
+
+#### ✅ Activer l'authentification à deux facteurs (2FA) sur ton compte Google  
+- Va sur [Mon compte Google](https://myaccount.google.com/security)  
+- Active **"Vérification en deux étapes"**  
+
+#### ✅ Générer un mot de passe d’application  
+- Toujours sur [Mon compte Google](https://myaccount.google.com/security), descends jusqu’à **"Mots de passe d'application"**  
+- Sélectionne **"Mail"** et **"Appareil : Autre"** (nomme-le `"Nodemailer"`)  
+- Google génère un **mot de passe à 16 caractères**  
+
+#### ✅ Utiliser ce mot de passe dans Nodemailer  
+Remplace ton `EMAIL_PASS` dans **.env.local** avec ce mot de passe généré :
+
+```ini
+EMAIL_USER=ton-adresse@gmail.com
+EMAIL_PASS=mot-de-passe-google-généré
+
 4. **Lancer le projet**
    ```sh
    npm run dev
