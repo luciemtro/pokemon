@@ -10,8 +10,7 @@ export default {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
-        nunito: ["Nunito", "serif"],
-        montserrat: ["Montserrat", "sans-serif"],
+        goldman: ["Goldman", "sans-serif"],
       },
       backgroundImage: {
         "radial-gradient":

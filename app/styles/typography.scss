@@ -12,6 +12,16 @@
     @apply font-poppins;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button {
+    @apply font-goldman;
+  }
+
   .title-underline {
     @apply h-1.5 w-80 block mx-auto mt-2 skew-x-[-15deg];
     background: linear-gradient(
