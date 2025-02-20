@@ -42,6 +42,11 @@ Bienvenue sur **Pokémon Store**, une boutique en ligne permettant d'acheter des
 ![2025-02-21 00 14 21 localhost b5a689771a61](https://github.com/user-attachments/assets/8cd12111-17b3-483f-b3a7-568b67dd29f3)
 
 ---
+## Structure de ma base de données
+![Capture d'écran 2025-02-21 004145](https://github.com/user-attachments/assets/74912aca-d2d8-43aa-aaf4-92d5d222a5f6)
+![Capture d'écran 2025-02-21 004117](https://github.com/user-attachments/assets/8cfbc23e-f8e5-4a65-b12e-13bc6f4e8b33)
+![Capture d'écran 2025-02-21 004133](https://github.com/user-attachments/assets/f74416b8-df76-44ab-840e-112ddf2f9eae)
+
 
 ## 🛠️ Technologies utilisées
 
