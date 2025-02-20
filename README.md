@@ -33,10 +33,12 @@ Bienvenue sur **Pokémon Store**, une boutique en ligne permettant d'acheter des
 ![2025-02-21 00 09 52 localhost f10af7cea343](https://github.com/user-attachments/assets/b5a0a70f-3742-4dab-9f1d-2b8ab691dbcf)
 ![2025-02-21 00 10 03 localhost fada96d98634](https://github.com/user-attachments/assets/29fa8b54-2b3b-47a8-bca4-5d20b89fc49c)
 ![2025-02-21 00 10 36 checkout stripe com 4fb7e365717b](https://github.com/user-attachments/assets/5ce9b648-9316-4c20-a60e-eceadc0f0542)
-![2025-02-21 00 11 08 localhost 9c7d3082d9d5](https://github.com/user-attachments/assets/1be51dc9-61b9-4fd2-8a8b-3cc0afd315d3)
-![Capture d'écran 2025-02-21 001156](https://github.com/user-attachments/assets/3c115ada-c3c2-468e-9a3c-3307e2516228)
-![2025-02-21 00 13 02 localhost 797d080d6bc4](https://github.com/user-attachments/assets/e04163fc-3483-4c71-8c94-b05b26dc929b)
-![2025-02-21 00 13 44 localhost 1a11af70f08c](https://github.com/user-attachments/assets/1c74bc14-f014-4919-bc1f-f37f1f06f5a8)
+
+![2025-02-21 00 11 08 localhost 9c7d3082d9d5](https://github.com/user-attachments/assets/92793e3d-1539-4403-9a27-f73d8fc90347)
+![2025-02-21 00 13 02 localhost 797d080d6bc4](https://github.com/user-attachments/assets/aaecaa30-0541-44d0-8e93-b2d0109a4a5b)
+![2025-02-21 00 13 44 localhost 1a11af70f08c](https://github.com/user-attachments/assets/400db651-1435-4249-9491-62d92cb57d5a)
+![2025-02-21 00 13 30 localhost 5e709f4e3880](https://github.com/user-attachments/assets/3137fa43-8a1d-45aa-8a7f-b1beb59ff6e8)
+
 ![2025-02-21 00 13 30 localhost 5e709f4e3880](https://github.com/user-attachments/assets/96684906-8f12-4923-8498-d02c21fef28b)
 ![2025-02-21 00 14 21 localhost b5a689771a61](https://github.com/user-attachments/assets/8cd12111-17b3-483f-b3a7-568b67dd29f3)
 
