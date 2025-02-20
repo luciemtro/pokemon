@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Order } from "@/types/order.types";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -28,8 +29,12 @@ export default function AdminDashboard() {
     fetchOrders();
   }, []);
 
-  if (loading) return <p>Chargement des commandes...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  if (error) {
+    return <div className="text-red-500 text-center mt-10">{error}</div>;
+  }
 
   return (
     <section className=" pt-24 min-h-screen text-white">
