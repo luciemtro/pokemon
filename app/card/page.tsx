@@ -117,8 +117,8 @@ export default function CardPage() {
               {/* ✅ Message d'erreur si le total est inférieur à 0,50 € */}
               {totalPrice < 0.5 && (
                 <p className="text-red-500 mt-2 font-semibold">
-                  ⚠️ Le montant minimum pour effectuer un paiement est de 0,50
-                  €.
+                  ⚠️ Le montant minimum pour effectuer un paiement est de 0,50 €
+                  .
                 </p>
               )}
 
