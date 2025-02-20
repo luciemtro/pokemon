@@ -43,16 +43,11 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log("📦 Avant correction - Session NextAuth :", session);
-      console.log("🛠️ Token NextAuth :", token);
-
       session.user = {
-        id: token.id as string, // 🔥 On force l'ajout de l'ID utilisateur
+        id: token.id as string,
         email: token.email,
         role: token.role as string,
       };
-
-      console.log("✅ Après correction - Session NextAuth :", session);
 
       return session;
     },

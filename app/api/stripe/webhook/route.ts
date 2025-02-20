@@ -1,3 +1,4 @@
+//stripe/webhook/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getConnection } from "@/lib/db";
@@ -41,7 +42,6 @@ async function sendConfirmationEmail(
       subject: `🛒 Confirmation de votre commande #${orderId}`,
       html: emailHtml, // ✅ Utilisation du template HTML
     };
-    console.log("📝 Email HTML généré :", emailHtml);
 
     // 📩 Envoyer l'email
     await transporter.sendMail(mailOptions);
@@ -54,13 +54,10 @@ async function sendConfirmationEmail(
 export async function POST(req: Request) {
   let connection;
   try {
-    console.log("📩 Réception d'un webhook Stripe...");
-
     const rawBody = await req.text();
     const sig = req.headers.get("stripe-signature");
 
     if (!sig) {
-      console.error("❌ Signature Stripe manquante !");
       return NextResponse.json(
         { error: "Signature Stripe manquante" },
         { status: 400 }
@@ -74,9 +71,7 @@ export async function POST(req: Request) {
         sig,
         process.env.STRIPE_WEBHOOK_SECRET!
       );
-      console.log("✅ Signature Stripe vérifiée !");
     } catch (err) {
-      console.error("❌ Erreur de vérification Stripe :", err);
       return NextResponse.json(
         { error: "Signature Webhook invalide" },
         { status: 400 }
@@ -107,7 +102,6 @@ export async function POST(req: Request) {
       }
 
       const products: any[] = JSON.parse(session.metadata.products);
-      console.log("📦 Produits reçus depuis metadata :", products);
 
       if (!products.length) {
         console.error("⚠️ Aucun produit trouvé après parsing !");
@@ -120,13 +114,7 @@ export async function POST(req: Request) {
       // 🔥 Connexion à la base de données
       connection = await getConnection();
       await connection.beginTransaction();
-      console.log("🔗 Connexion à la base de données établie.");
 
-      // 📌 Vérifier si l'utilisateur existe
-      console.log(
-        "🔍 Recherche de l'utilisateur avec l'email :",
-        customerEmail
-      );
       const [userRows] = await connection.execute<RowDataPacket[]>(
         "SELECT id FROM users WHERE email = ? LIMIT 1",
         [customerEmail]
@@ -141,14 +129,25 @@ export async function POST(req: Request) {
       }
 
       const userId = userRows[0].id;
-      console.log("👤 Utilisateur trouvé, ID :", userId);
 
-      // 📌 Insertion de la commande dans `orders`
+      // 📌 Création d'une seule commande dans `orders`
       const totalFee = session.amount_total ? session.amount_total / 100 : 0;
+
+      const [existingOrders] = await connection.execute<RowDataPacket[]>(
+        "SELECT id FROM orders WHERE stripe_session_id = ? LIMIT 1",
+        [session.id]
+      );
+
+      if (existingOrders.length > 0) {
+        console.log("⚠️ Commande déjà enregistrée, annulation de l'insertion.");
+        return NextResponse.json({ success: true });
+      }
+
       const insertOrderSql = `
-        INSERT INTO orders (user_id, email, total, status, stripe_session_id)
-        VALUES (?, ?, ?, ?, ?)
-      `;
+  INSERT INTO orders (user_id, email, total, status, stripe_session_id)
+  VALUES (?, ?, ?, ?, ?)
+`;
+
       const [orderResult] = await connection.execute<ResultSetHeader>(
         insertOrderSql,
         [userId, customerEmail, totalFee, "paid", session.id]

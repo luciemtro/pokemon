@@ -1,3 +1,5 @@
+//Stripe/checkout/route.ts
+import { q } from "framer-motion/client";
 import { NextResponse } from "next/server.js";
 import Stripe from "stripe";
 
@@ -85,11 +87,13 @@ export async function POST(req: Request) {
               name: string;
               price: number;
               images: { small: string };
+              quantity: number;
             }) => ({
               id: p.id,
               name: p.name,
               price: p.price,
               image: p.images?.small || "https://via.placeholder.com/150",
+              quantity: p.quantity,
             })
           )
         ),
@@ -107,8 +111,6 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
-
-    console.log("🛒 Checkout Session ID :", session.id);
 
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
