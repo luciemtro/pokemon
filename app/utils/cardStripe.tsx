@@ -18,7 +18,7 @@ const CreditCard = () => {
       <div className="flex justify-between text-sm mt-2">
         <div>
           <p className="text-gray-400">EXP</p>
-          <p>42/42</p>
+          <p>44/44</p>
         </div>
         <div>
           <p className="text-gray-400">CVC</p>
