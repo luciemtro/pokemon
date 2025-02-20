@@ -170,7 +170,7 @@ export async function POST(req: Request) {
           product.name || "Nom inconnu",
           product.image || "https://via.placeholder.com/150",
           product.price ?? 0,
-          1, // 📌 Supposons que la quantité est toujours 1 (corrige si nécessaire)
+          product.quantity ?? 1,
         ]);
         console.log("✅ Produit inséré :", product.name);
       }

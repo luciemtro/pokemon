@@ -7,13 +7,13 @@ export function generateOrderEmail(
     .map(
       (p) =>
         `<tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: #ffffff;">${
+          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: black;">${
             p.name
           }</td>
-          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: #ffffff;">${p.price.toFixed(
+          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: black;">${p.price.toFixed(
             2
           )} €</td>
-          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: #ffffff;">${
+          <td style="padding: 10px; border-bottom: 1px solid #e94560; color: black;">${
             p.quantity
           }</td>
         </tr>`
@@ -28,7 +28,7 @@ export function generateOrderEmail(
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Confirmation de commande - Pokémon Store</title>
     </head>
-    <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <body style="margin: 0; padding: 100px; font-family: Arial, sans-serif; background-color: #f4f4f4;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #1a1a2e; width: 100%;">
         <tr>
           <td align="center">
