@@ -164,6 +164,7 @@ export async function POST(req: Request) {
       `;
 
       for (const product of products) {
+        console.log("📦 Produit en cours d'insertion :", product);
         await connection.execute(insertOrderItemSql, [
           orderId,
           product.id || "unknown",
