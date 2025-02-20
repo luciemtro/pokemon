@@ -93,7 +93,7 @@ export default function PokemonPage() {
       {pokemon && (
         <div className="relative flex flex-col items-center z-10">
           <div
-            className="card md:!w-96 md:!h-[550] "
+            className="card md:!w-96 md:!h-[550px] "
             style={
               {
                 "--color1": typeColors[pokemon.types?.[0]]?.[0] || "#CCCCCC",
