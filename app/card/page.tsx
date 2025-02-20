@@ -44,15 +44,15 @@ export default function CardPage() {
           <p className="text-lg text-gray-300">Le panier est vide.</p>
         ) : (
           <div className=" w-[90%] bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
-            <ul className="flex flex-wrap gap-6">
+            <ul className="flex flex-wrap gap-5 justify-center ">
               {card.map((pokemon) => (
                 <li
                   key={pokemon.id}
-                  className="flex items-center gap-4 p-2 min-w-[300px] background-card-violet rounded-lg shadow-xl shadow-gray-500"
+                  className="flex items-center gap-3 md:gap-6 p-5 background-card-violet rounded-lg shadow-xl shadow-gray-500 justify-center "
                 >
                   {/* Image Pokémon */}
                   <div
-                    className="card"
+                    className="card  md:!w-52 md:!h-72 !w-32 !h-44"
                     style={
                       {
                         "--color1":
@@ -61,17 +61,10 @@ export default function CardPage() {
                           typeColors[pokemon.types?.[0]]?.[1] || "#AAAAAA",
                         "--color3":
                           typeColors[pokemon.types?.[0]]?.[2] || "#888888",
+                        backgroundImage: `url(${pokemon.images.small})`,
                       } as React.CSSProperties
                     }
-                  >
-                    <Image
-                      src={pokemon.images.small}
-                      alt={pokemon.name}
-                      width={120}
-                      height={150}
-                      className="rounded-lg shadow-md"
-                    />
-                  </div>
+                  ></div>
                   {/* Infos Pokémon */}
                   <div className="flex-1 relative min-h-44">
                     <p className="text-xl font-bold text-white">

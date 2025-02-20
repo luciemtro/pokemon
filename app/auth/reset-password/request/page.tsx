@@ -51,7 +51,7 @@ export default function RequestResetPassword() {
       {/* 📩 Conteneur du formulaire */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
         <h1 className="text-2xl font-extrabold amethyst-text-log text-center mb-6 flex gap-2 items-center">
-          <FaKey className="text-purple-400 text-5xl" />
+          <FaKey className="text-purple-200 text-5xl" />
           <span className="amethyst-text-log"> Mot de passe oublié ?</span>
         </h1>
         <p className="text-gray-300 text-center mb-4">

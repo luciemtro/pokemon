@@ -112,9 +112,9 @@
 }
 
 .card {
+  width: 280px;
+  height: 380px;
   position: relative;
-  overflow: hidden;
-  margin: 20px;
   overflow: hidden;
   z-index: 10;
   touch-action: none;
@@ -130,8 +130,6 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  transform-origin: center;
-  background: linear-gradient(180deg, #1d083c, #4e0085, #1d083c);
 }
 
 .card:hover {

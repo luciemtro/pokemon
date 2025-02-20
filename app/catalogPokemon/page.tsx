@@ -15,7 +15,7 @@ export default function CatalogPokemon() {
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 16;
+  const itemsPerPage = 15;
 
   useEffect(() => {
     async function getPokemons() {
@@ -95,7 +95,7 @@ export default function CatalogPokemon() {
       {filteredPokemons.length === 0 ? (
         <p className="text-gray-500">Aucun Pokémon trouvé.</p>
       ) : (
-        <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 z-10 lg:p-14 md:p-10 p-5 background-violet">
+        <ul className="w-full flex flex-wrap justify-center gap-8 z-10 lg:p-14 md:p-10 p-5 background-violet">
           {currentPokemons.map((pokemon) => {
             const [color1, color2, color3] = typeColors[pokemon.types?.[0]] || [
               "#CCCCCC",
@@ -105,7 +105,7 @@ export default function CatalogPokemon() {
             return (
               <li
                 key={pokemon.id}
-                className="background-card-violet relative lg:p-3 md:p-3 p-1 rounded-lg shadow-xl shadow-gray-500 text-center transform transition-transform hover:scale-105 hover:shadow-lg"
+                className=" flex flex-col items-center background-card-violet relative p-8 rounded-lg shadow-xl shadow-gray-500 text-center transform transition-transform hover:scale-105 hover:shadow-lg"
               >
                 {pokemon.images?.small && (
                   <Link href={`/catalogPokemon/${pokemon.id}`}>
@@ -116,15 +116,10 @@ export default function CatalogPokemon() {
                           "--color1": color1,
                           "--color2": color2,
                           "--color3": color3,
+                          backgroundImage: `url(${pokemon.images.small})`,
                         } as React.CSSProperties
                       }
-                    >
-                      <img
-                        src={pokemon.images.small}
-                        alt={pokemon.name}
-                        className="mx-auto mb-2 rounded-lg w-72"
-                      />
-                    </div>
+                    />
                   </Link>
                 )}
                 {pokemon.types && (
@@ -146,16 +141,18 @@ export default function CatalogPokemon() {
                   </div>
                 )}
 
-                {pokemon.tcgplayer?.prices?.holofoil?.market ? (
-                  <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center mt-3 mb-5">
-                    <FaSackDollar className=" text-2xl" />
-                    {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
-                  </p>
-                ) : (
-                  <p className="text-gray-400 flex items-center gap-2 justify-center mt-3">
-                    <FaSackDollar className=" text-2xl" /> Prix non disponible
-                  </p>
-                )}
+                <div className="flex flex-col gap-2 items-center ">
+                  {pokemon.tcgplayer?.prices?.holofoil?.market ? (
+                    <p className="text-yellow-200 font-semibold flex items-center gap-2 justify-center">
+                      <FaSackDollar className=" text-2xl" />
+                      {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
+                    </p>
+                  ) : (
+                    <p className="text-gray-400 flex items-center gap-2 justify-center">
+                      <FaSackDollar className=" text-2xl" /> Prix non disponible
+                    </p>
+                  )}
+                </div>
               </li>
             );
           })}

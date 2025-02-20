@@ -10,6 +10,7 @@ import {
   FaUserTag,
   FaCheck,
   FaTimes,
+  FaInfoCircle,
 } from "react-icons/fa";
 
 const RegisterPage = () => {
@@ -60,8 +61,8 @@ const RegisterPage = () => {
     <section className="flex items-center justify-center min-h-screen text-white p-10">
       {/* 📜 Conteneur du formulaire */}
       <div className="relative z-10 background-card-violet p-8 rounded-lg shadow-xl shadow-gray-500 max-w-md w-full">
-        <h1 className="text-3xl font-extrabold  text-center mb-6 flex items-center justify-center gap-2">
-          <FaUserPlus className="text-purple-400" />{" "}
+        <h1 className="text-3xl font-extrabold text-center mb-6 flex items-center justify-center gap-2">
+          <FaUserPlus className="text-purple-200" />{" "}
           <span className="amethyst-text-log">Inscription</span>
         </h1>
 
@@ -105,16 +106,30 @@ const RegisterPage = () => {
           </div>
 
           {/* 🎭 Sélecteur de rôle */}
-          <div className="flex items-center bg-white border border-gray-600 rounded px-4 py-2">
-            <FaUserTag className="text-gray-400 mr-2" />
-            <select
-              className="w-full bg-transparent text-black focus:outline-none"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="user">Utilisateur</option>
-              <option value="admin">Administrateur</option>
-            </select>
+          <div className="flex flex-col">
+            <div className="flex items-center bg-white border border-gray-600 rounded px-4 py-2">
+              <FaUserTag className="text-gray-400 mr-2" />
+              <select
+                className="w-full bg-transparent text-black focus:outline-none"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value="user">Utilisateur</option>
+                <option value="admin">Administrateur</option>
+              </select>
+            </div>
+            {/* ℹ️ Explication des rôles */}
+            <div className="mt-2 p-3 bg-gray-800 text-white rounded-md text-sm flex items-start gap-2">
+              <FaInfoCircle className="text-yellow-400 mt-1" />
+              <p>
+                <strong>Utilisateur :</strong> Accès au tableau de bord "Mes
+                commandes" pour voir ses propres commandes.
+                <br />
+                <strong>Administrateur :</strong> Accès au tableau de bord
+                "Toutes les commandes" pour voir les commandes de tous les
+                utilisateurs.
+              </p>
+            </div>
           </div>
 
           {/* 🟢 Bouton S'inscrire */}

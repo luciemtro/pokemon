@@ -93,23 +93,16 @@ export default function PokemonPage() {
       {pokemon && (
         <div className="relative flex flex-col items-center z-10">
           <div
-            className="card"
+            className="card md:!w-96 md:!h-[550] "
             style={
               {
                 "--color1": typeColors[pokemon.types?.[0]]?.[0] || "#CCCCCC",
                 "--color2": typeColors[pokemon.types?.[0]]?.[1] || "#AAAAAA",
                 "--color3": typeColors[pokemon.types?.[0]]?.[2] || "#888888",
+                backgroundImage: `url(${pokemon.images.large})`,
               } as React.CSSProperties
             }
-          >
-            <Image
-              src={pokemon.images.large}
-              alt={pokemon.name}
-              width={320}
-              height={420}
-              className="rounded-lg w-full h-auto"
-            />
-          </div>
+          ></div>
         </div>
       )}
 
