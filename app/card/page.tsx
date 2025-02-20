@@ -34,25 +34,25 @@ export default function CardPage() {
   }, 0);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center  pt-24 pb-16">
+    <section className="min-h-screen flex flex-col items-center justify-center pt-24 pb-16">
       <h1 className="text-3xl font-extrabold amethyst-text uppercase">
         🛒 Votre Panier
         <span className="title-underline"></span>
       </h1>
-      <div className=" w-full  flex justify-center items-center">
+      <div className="w-full flex justify-center items-center">
         {card.length === 0 ? (
           <p className="text-lg text-gray-300">Le panier est vide.</p>
         ) : (
-          <div className=" w-[90%] bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
-            <ul className="flex flex-wrap gap-5 justify-center ">
+          <div className="w-[90%] bg-white p-6 rounded-lg shadow-xl shadow-gray-500">
+            <ul className="flex flex-wrap gap-5 justify-center">
               {card.map((pokemon) => (
                 <li
                   key={pokemon.id}
-                  className="flex items-center gap-3 md:gap-6 p-5 background-card-violet rounded-lg shadow-xl shadow-gray-500 justify-center "
+                  className="flex items-center gap-3 md:gap-6 p-5 background-card-violet rounded-lg shadow-xl shadow-gray-500 justify-center"
                 >
                   {/* Image Pokémon */}
                   <div
-                    className="card  md:!w-52 md:!h-72 !w-32 !h-44"
+                    className="card md:!w-52 md:!h-72 !w-32 !h-44"
                     style={
                       {
                         "--color1":
@@ -65,6 +65,7 @@ export default function CardPage() {
                       } as React.CSSProperties
                     }
                   ></div>
+
                   {/* Infos Pokémon */}
                   <div className="flex-1 relative min-h-44">
                     <p className="text-xl font-bold text-white">
@@ -73,7 +74,7 @@ export default function CardPage() {
                     <p className="text-fuchsia-600 font-semibold">
                       {pokemon.rarity}
                     </p>
-                    <p className=" font-semibold text-yellow-200 flex gap-2 items-center">
+                    <p className="font-semibold text-yellow-200 flex gap-2 items-center">
                       <FaSackDollar className="text-yellow-200 text-xl" />{" "}
                       {pokemon.price?.toFixed(2) || 0} €
                     </p>
@@ -113,6 +114,14 @@ export default function CardPage() {
                 Total : {totalPrice.toFixed(2)} €
               </p>
 
+              {/* ✅ Message d'erreur si le total est inférieur à 0,50 € */}
+              {totalPrice < 0.5 && (
+                <p className="text-red-500 mt-2 font-semibold">
+                  ⚠️ Le montant minimum pour effectuer un paiement est de 0,50
+                  €.
+                </p>
+              )}
+
               <div className="flex justify-center gap-4 mt-4">
                 <button
                   onClick={clearCard}
@@ -121,9 +130,15 @@ export default function CardPage() {
                   🗑️ Vider le panier
                 </button>
 
+                {/* ✅ Désactive le bouton de paiement si le total est trop bas */}
                 <button
-                  onClick={handlePayment}
-                  className="bg-blue-500 flex item-center gap-2 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-500/50"
+                  onClick={totalPrice >= 0.5 ? handlePayment : undefined}
+                  disabled={totalPrice < 0.5}
+                  className={`flex item-center gap-2 text-white px-6 py-3 rounded-lg transition shadow-md shadow-blue-500/50 ${
+                    totalPrice < 0.5
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-700"
+                  }`}
                 >
                   <FaCreditCard className="white text-2xl" />
                   Passer au paiement

@@ -110,37 +110,41 @@ export default function PokemonPage() {
       {pokemon && (
         <div className="w-80 bg-opacity-90 background-card-violet p-6 rounded-lg shadow-2xl shadow-gray-700 flex flex-col items-start text-left gap-5 z-10">
           {/* Badge de rareté stylisé */}
-          <span className="text-fuchsia-500 font-semibold">
+          <span className="text-fuchsia-500 font-semibold text-lg">
             {pokemon.rarity}
           </span>
 
           {/* 🌟 Types avec icônes */}
           {pokemon.types && (
-            <div className="flex gap-3 items-center mt-2">
+            <div className="flex flex-col">
               {pokemon.types.map((type) => (
-                <div
-                  key={type}
-                  className="flex items-center gap-2 px-2 py-1 rounded-lg"
-                >
-                  <span className={`pokemon-text ${type.toLowerCase()}`}>
-                    {type}
-                  </span>
-                  <Image
-                    src={`/images/icon-element-pokemon/${type.toLowerCase()}.png`}
-                    alt={type}
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
+                <div>
+                  <h3
+                    className={`text-lg pokemon-text !text-left ${type.toLowerCase()}`}
+                  >
+                    Type(s) :
+                  </h3>
+                  <div key={type} className="flex items-center gap-2">
+                    <span className={`pokemon-text ${type.toLowerCase()}`}>
+                      {type}
+                    </span>
+                    <Image
+                      src={`/images/icon-element-pokemon/${type.toLowerCase()}.png`}
+                      alt={type}
+                      width={40}
+                      height={40}
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
           )}
 
           {/* 🌟 PV */}
-          <p className="text-gray-300 text-lg">
+          <h3 className="text-gray-300 text-lg">
             <strong>PV :</strong> {pokemon.hp}
-          </p>
+          </h3>
 
           {/* ⚡ Attaques */}
           <div>
@@ -174,23 +178,30 @@ export default function PokemonPage() {
           )}
 
           {/* 💰 Prix & Achat */}
-          <div className="flex flex-col gap-2">
-            {pokemon.tcgplayer?.prices?.holofoil?.market && (
-              <p className="text-xl font-semibold text-green-400 flex item-center gap-2">
-                <FaSackDollar className="text-green-500 text-2xl" />
-                Prix : {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
-              </p>
+
+          <ul className="flex flex-col gap-2  ">
+            <h3 className="text-xl font-semibold text-yellow-200">Prix :</h3>
+            {pokemon.tcgplayer?.prices?.holofoil?.market ? (
+              <li className="text-yellow-200 font-semibold flex items-center gap-2 justify-center">
+                <FaSackDollar className=" text-2xl" />
+                {pokemon.tcgplayer.prices.holofoil.market.toFixed(2)} €
+              </li>
+            ) : (
+              <li className="text-gray-400 flex items-center gap-2 justify-center">
+                <FaSackDollar className=" text-2xl" /> Prix non disponible
+              </li>
             )}
-            {pokemon.tcgplayer?.url && (
-              <a
-                href={pokemon.tcgplayer.url}
-                target="_blank"
-                className="text-blue-400 underline"
-              >
-                Voir sur TCGPlayer
-              </a>
-            )}
-          </div>
+          </ul>
+
+          {pokemon.tcgplayer?.url && (
+            <a
+              href={pokemon.tcgplayer.url}
+              target="_blank"
+              className="text-blue-400 underline"
+            >
+              Voir sur TCGPlayer
+            </a>
+          )}
 
           {/* ⚡ Bouton Ajouter au panier stylisé */}
           <button
