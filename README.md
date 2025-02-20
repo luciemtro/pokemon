@@ -73,7 +73,8 @@ Bienvenue sur **Pokémon Store**, une boutique en ligne permettant d'acheter des
 3. **Configurer l’environnement**
     Crée un fichier .env.local et ajoute les valeurs suivantes :
 
-    # Stripe
+```json
+# Stripe
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-public-key
 STRIPE_SECRET_KEY=your-secret-key
 
@@ -102,6 +103,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 
 # Pokémon TCG API
 POKEMON_TCG_API_KEY=your-api-key
+```
 
 ⚠️ Ne partage jamais ces informations sensibles publiquement ! Pense à ajouter .env.local à ton .gitignore.
 
