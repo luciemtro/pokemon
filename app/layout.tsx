@@ -1,4 +1,5 @@
 import { CardProvider } from "@/context/cardContext";
+import Head from "next/head";
 import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import "@/styles/typography.scss";
@@ -21,6 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body>
         {/* Pour la session utilisateur */}
         <SessionProviderClient>
